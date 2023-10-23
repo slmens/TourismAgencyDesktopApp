@@ -2,6 +2,8 @@ package com.agency.View;
 
 import com.agency.Helper.Constants;
 import com.agency.Helper.Helper;
+import com.agency.Model.Customer;
+import com.agency.Model.Employee;
 import com.agency.Model.User;
 
 import javax.swing.*;
@@ -39,6 +41,10 @@ public class LogInGUI extends JFrame{
                     dispose();
                     if (obj.getUserType().equals("customer")){
                         CustomerGUI customerGUI = new CustomerGUI(obj);
+                    }else if (obj.getUserType().equals("manager")){
+                        ManagerGUI managerGUI = new ManagerGUI(obj);
+                    }else if (obj.getUserType().equals("employee")){
+                        EmployeeGUI employeeGUI = new EmployeeGUI(obj);
                     }
                 }else{
                     if (obj == null){
