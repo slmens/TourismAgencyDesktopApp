@@ -23,9 +23,17 @@ public class Helper {
                 msg = "There is no user with that user name";
                 strTitle = "Warning!";
                 break;
+            case "passNotMatch":
+                msg = "Your password doesn't match with validation field!";
+                strTitle = "Warning!";
+                break;
+            case "userCreationSuccess":
+                msg = "Your account have been successfully created!";
+                strTitle = "Success!";
+                break;
             default:
                 msg = strMSG;
-                strTitle = null;
+                strTitle = "Warning!";
                 break;
         }
 

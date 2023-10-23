@@ -60,7 +60,8 @@ public class LogInGUI extends JFrame{
 
         // CREATE ACCOUNT BUTTON
         btn_create_account.addActionListener(e -> {
-
+            dispose();
+            SignUpGUI signUpGUI = new SignUpGUI();
         });
     }
 
