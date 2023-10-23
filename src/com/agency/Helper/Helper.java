@@ -2,9 +2,35 @@ package com.agency.Helper;
 
 import com.formdev.flatlaf.intellijthemes.FlatSolarizedDarkIJTheme;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class Helper {
+
+    public static void showMessage(String strMSG){
+        String msg;
+        String strTitle;
+        switch (strMSG){
+            case "fill":
+                msg = "Please fill all the areas...";
+                strTitle = "Warning!";
+                break;
+            case "wrongPass":
+                msg = "Your password is wrong!";
+                strTitle = "Warning!";
+                break;
+            case "userNull":
+                msg = "There is no user with that user name";
+                strTitle = "Warning!";
+                break;
+            default:
+                msg = strMSG;
+                strTitle = null;
+                break;
+        }
+
+        JOptionPane.showMessageDialog(null,msg,strTitle,JOptionPane.INFORMATION_MESSAGE);
+    }
 
     public static int screenCenter(String point , Dimension size){
         int planeDimension;
