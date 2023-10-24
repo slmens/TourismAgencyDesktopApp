@@ -9,21 +9,26 @@ import java.sql.SQLException;
 
 public class User {
     // pass,username, fullname,type,
+    private int userID;
+    private String userTel;
     private String fullName;
     private String uName;
     private String pass;
     private String userType;
 
-    public User(String fullName, String uName, String pass, String userType) {
+    public User(int userID,String userTel,String fullName, String uName, String pass, String userType) {
+        this.userTel = userTel;
+        this.userID = userID;
         this.fullName = fullName;
         this.uName = uName;
         this.pass = pass;
         this.userType = userType;
     }
 
+
     // USER ADD METHOD
-    public static boolean userAdd(String fullName,String uName, String pass, String userType){
-        String query = "INSERT INTO users (full_name,user_name,pass,user_type) VALUES (?,?,?,?)";
+    public static boolean userAdd(String fullName,String uName, String pass, String userType,String userTel){
+        String query = "INSERT INTO users (full_name,user_name,pass,user_type,user_tel) VALUES (?,?,?,?,?)";
         User obj = userFetch(uName);
 
         if (obj == null){
@@ -33,6 +38,7 @@ public class User {
                 st.setString(2,uName);
                 st.setString(3,pass);
                 st.setString(4,userType);
+                st.setString(5,userTel);
 
                 return st.executeUpdate() != -1;
 
@@ -54,7 +60,27 @@ public class User {
 
             ResultSet rs = st.executeQuery();
             if (rs.next()){
-                obj = new User(rs.getString("full_name"),rs.getString("user_name"),rs.getString("pass"),rs.getString("user_type"));
+                obj = new User(rs.getInt("user_id"),rs.getString("user_tel"),rs.getString("full_name"),rs.getString("user_name"),rs.getString("pass"),rs.getString("user_type"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return obj;
+    }
+
+    public static User userFetch(int id){
+        String query = "SELECT * FROM users WHERE user_id = ?";
+        User obj = null;
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setInt(1,id);
+
+            ResultSet rs = st.executeQuery();
+            if (rs.next()){
+                obj = new User(rs.getInt("user_id"),rs.getString("user_tel"),rs.getString("full_name"),rs.getString("user_name"),rs.getString("pass"),rs.getString("user_type"));
             }
 
         } catch (SQLException e) {
@@ -65,9 +91,13 @@ public class User {
     }
 
 
+    public String getUserTel() {
+        return userTel;
+    }
 
-
-
+    public int getUserID() {
+        return userID;
+    }
 
     public String getFullName() {
         return fullName;

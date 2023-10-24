@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="wrapper" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="20" y="20" width="906" height="497"/>
+      <xy x="20" y="20" width="906" height="527"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -24,7 +24,7 @@
           <text value="Log Out"/>
         </properties>
       </component>
-      <grid id="5fc88" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="5fc88" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -97,7 +97,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="4863c" class="javax.swing.JTable" binding="table2" default-binding="true">
+                      <component id="4863c" class="javax.swing.JTable" binding="tbl_reservations_list">
                         <constraints/>
                         <properties/>
                       </component>
@@ -130,7 +130,7 @@
                   </scrollpane>
                 </children>
               </grid>
-              <grid id="15766" layout-manager="GridLayoutManager" row-count="12" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="15766" layout-manager="GridLayoutManager" row-count="13" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="10" left="10" bottom="10" right="10"/>
                 <constraints>
                   <tabbedpane title="Add Hotel"/>
@@ -148,7 +148,7 @@
                   </component>
                   <vspacer id="9b19d">
                     <constraints>
-                      <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </vspacer>
                   <component id="ed34e" class="javax.swing.JTextField" binding="txt_hotel_add_name">
@@ -435,20 +435,20 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </vspacer>
+                  <component id="7aca1" class="javax.swing.JButton" binding="btn_add_hotel">
+                    <constraints>
+                      <grid row="11" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="40"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value="Add Hotel"/>
+                    </properties>
+                  </component>
                 </children>
               </grid>
             </children>
           </tabbedpane>
-          <component id="7aca1" class="javax.swing.JButton" binding="btn_add_hotel">
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                <minimum-size width="100" height="40"/>
-              </grid>
-            </constraints>
-            <properties>
-              <text value="Add Hotel"/>
-            </properties>
-          </component>
         </children>
       </grid>
     </children>

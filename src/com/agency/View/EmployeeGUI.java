@@ -3,12 +3,11 @@ package com.agency.View;
 import com.agency.Helper.Constants;
 import com.agency.Helper.Helper;
 import com.agency.Model.Hotel;
+import com.agency.Model.Reservation;
 import com.agency.Model.User;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class EmployeeGUI extends JFrame{
@@ -17,7 +16,7 @@ public class EmployeeGUI extends JFrame{
     private JLabel lbl_welcome;
     private JTabbedPane tabbedPane1;
     private JTable table1;
-    private JTable table2;
+    private JTable tbl_reservations_list;
     private JTable tbl_hotel_list;
     private JTextField txt_hotel_add_name;
     private JTextField txt_hotel_add_tel;
@@ -66,6 +65,11 @@ public class EmployeeGUI extends JFrame{
     private static Object[] row_hotel_list;
     //private JPopupMenu patikaMenu;
 
+    // Reservations table variables
+    private static DefaultTableModel mdl_reservation_list;
+    private static Object[] row_reservation_list;
+
+
     public EmployeeGUI(User employee) {
         this.employee = employee;
         add(wrapper);
@@ -82,6 +86,7 @@ public class EmployeeGUI extends JFrame{
         tbl_hotel_list.getTableHeader().setReorderingAllowed(false);
         tbl_hotel_list.getColumnModel().getColumn(0).setMaxWidth(50);
 
+        updateReservationsTable(tbl_reservations_list);
 
 
 
@@ -239,5 +244,36 @@ public class EmployeeGUI extends JFrame{
         }
 
         tbl_hotel_list.setModel(mdl_hotel_list);
+    }
+
+    // UPDATE RESERVATION LIST
+    public static void updateReservationsTable(JTable tbl_reservations_list){
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_reservations_list.getModel();
+        clearModel.setRowCount(0);
+
+        mdl_reservation_list = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //if (column == 0){
+                return false;
+                //}
+                //return super.isCellEditable(row, column);
+            }
+        };
+
+        Object[] col_reservations_list = {"ID","Hotel ID","User ID","Room ID","User Tel","Person Count","Entrance","Exit"};
+        mdl_reservation_list.setColumnIdentifiers(col_reservations_list);
+
+        ArrayList<Reservation> reservationList;
+        reservationList = Reservation.getReservationList();
+        for (Reservation rs : reservationList){
+            String entrance = rs.getEntrance();
+            String exit = rs.getExit();
+            row_reservation_list = new Object[]{rs.getID(),rs.getHotelID(),rs.getCustomer().getUserID(),rs.getRoomID(),rs.getCustomer().getUserTel(),rs.getPersonCount(),entrance,exit};
+            mdl_reservation_list.addRow(row_reservation_list);
+        }
+
+        tbl_reservations_list.setModel(mdl_reservation_list);
+
     }
 }
