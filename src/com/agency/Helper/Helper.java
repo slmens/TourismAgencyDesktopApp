@@ -31,6 +31,10 @@ public class Helper {
                 msg = "Your account have been successfully created!";
                 strTitle = "Success!";
                 break;
+            case "hotelAdded":
+                msg = "Hotel successfully added!";
+                strTitle = "Success!";
+                break;
             default:
                 msg = strMSG;
                 strTitle = "Warning!";

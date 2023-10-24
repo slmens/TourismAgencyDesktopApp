@@ -1,6 +1,7 @@
 package com.agency.Model;
 
 import com.agency.Helper.DBConnector;
+import com.agency.Helper.Helper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -59,6 +60,7 @@ public class Hotel {
     }
 
 
+
     public static ArrayList<Hotel> getHotelList(){
         ArrayList<Hotel> hotelList = new ArrayList<>();
         String query = "SELECT * FROM hotels";
@@ -76,6 +78,69 @@ public class Hotel {
             throw new RuntimeException(e);
         }
         return hotelList;
+    }
+
+    public static boolean addHotel(String hotel_city,String hotel_district,String hotel_adress,String hotel_email,String hotel_tel,String hotel_star,String hotel_name,int freePark,int SPA,int twentyForSevenService,int freeWifi,int swimmingPool,int gym,int concierge,int ultraAllIncluded,int allIncluded,int roomBreakfast,int fullType,int halfType,int onlyBed,int fullCreditExceptAlcohol){
+        String query = "INSERT INTO hotels (hotel_city,hotel_district,hotel_adress,hotel_email,hotel_tel,hotel_star,hotel_name,freePark,SPA,twentyForSevenService,freeWifi,swimmingPool,gym,concierge,ultraAllIncluded,allIncluded,roomBreakfast,fullType,halfType,onlyBed,fullCreditExceptAlcohol) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        if (getFetch(hotel_name)){
+            Helper.showMessage("There is another hotel with that name! Couldn't create hotel!");
+        }else{
+            try {
+                PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+                st.setString(1,hotel_city);
+                st.setString(2,hotel_district);
+                st.setString(3,hotel_adress);
+                st.setString(4,hotel_email);
+                st.setString(5,hotel_tel);
+                st.setString(6,hotel_star);
+                st.setString(7,hotel_name);
+                st.setInt(8,freePark);
+                st.setInt(9,SPA);
+                st.setInt(10,twentyForSevenService);
+                st.setInt(11,freeWifi);
+                st.setInt(12,swimmingPool);
+                st.setInt(13,gym);
+                st.setInt(14,concierge);
+                st.setInt(15,ultraAllIncluded);
+                st.setInt(16,allIncluded);
+                st.setInt(17,roomBreakfast);
+                st.setInt(18,fullType);
+                st.setInt(19,halfType);
+                st.setInt(20,onlyBed);
+                st.setInt(21,fullCreditExceptAlcohol);
+
+                return st.executeUpdate() != -1;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return false;
+    }
+
+    public static boolean getFetch(String hotel_name){
+        String query = "SELECT hotel_name FROM hotels WHERE hotel_name =?";
+        int hasHotel = 0;
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setString(1,hotel_name);
+
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()){
+                hasHotel = 1;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (hasHotel == 0){
+            // There is no hotel with that hotel name
+            return false;
+        }else{
+            return true;
+        }
     }
 
 
