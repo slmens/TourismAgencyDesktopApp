@@ -4,6 +4,7 @@ import com.agency.Helper.Constants;
 import com.agency.Helper.Helper;
 import com.agency.Model.Hotel;
 import com.agency.Model.Reservation;
+import com.agency.Model.Room;
 import com.agency.Model.User;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class EmployeeGUI extends JFrame{
     private JButton btn_log_out;
     private JLabel lbl_welcome;
     private JTabbedPane tabbedPane1;
-    private JTable table1;
+    private JTable tbl_room_list;
     private JTable tbl_reservations_list;
     private JTable tbl_hotel_list;
     private JTextField txt_hotel_add_name;
@@ -41,6 +42,17 @@ public class EmployeeGUI extends JFrame{
     private JCheckBox check_onlyBed;
     private JCheckBox check_fullCredit;
     private JButton btn_add_hotel;
+    private JTextField txt_add_room_hotel_name;
+    private JTextField txt_add_room_stock;
+    private JTextField txt_add_room_bed;
+    private JComboBox cmb_room_add_room_type;
+    private JTextField txt_add_room_room_size;
+    private JCheckBox check_room_add_tv;
+    private JCheckBox check_room_add_projection;
+    private JCheckBox check_room_add_vault;
+    private JCheckBox check_room_add_bar;
+    private JCheckBox check_room_add_game;
+    private JButton btn_add_room;
     private User employee;
 
     //CheckBox Variables
@@ -59,6 +71,13 @@ public class EmployeeGUI extends JFrame{
     private static int onlyBed = 0;
     private static int fullCreditExceptAlcohol = 0;
 
+    // Add Room CheckBox Variables
+    private static int hasTv = 0;
+    private static int hasMinibar = 0;
+    private static int hasGameConsole = 0;
+    private static int hasVault = 0;
+    private static int hasProjection = 0;
+
 
     // Hotel table variables
     private static DefaultTableModel mdl_hotel_list;
@@ -69,11 +88,15 @@ public class EmployeeGUI extends JFrame{
     private static DefaultTableModel mdl_reservation_list;
     private static Object[] row_reservation_list;
 
+    // Room table variables
+    private static DefaultTableModel mdl_room_list;
+    private static Object[] row_room_list;
+
 
     public EmployeeGUI(User employee) {
         this.employee = employee;
         add(wrapper);
-        setSize(1200,500);
+        setSize(1300,500);
         setLocation(Helper.screenCenter("x",getSize()),Helper.screenCenter("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Constants.PROJECT_TITLE);
@@ -87,6 +110,7 @@ public class EmployeeGUI extends JFrame{
         tbl_hotel_list.getColumnModel().getColumn(0).setMaxWidth(50);
 
         updateReservationsTable(tbl_reservations_list);
+        updateRoom(tbl_room_list);
 
 
 
@@ -112,8 +136,6 @@ public class EmployeeGUI extends JFrame{
             dispose();
             LogInGUI logInGUI = new LogInGUI();
         });
-
-
 
 
 
@@ -217,6 +239,100 @@ public class EmployeeGUI extends JFrame{
                 fullCreditExceptAlcohol = 0;
             }
         });
+
+        // ADD ROOM BUTTON PRESSED
+        btn_add_room.addActionListener(e -> {
+            if (txt_add_room_bed.getText().isEmpty() || txt_add_room_room_size.getText().isEmpty() || txt_add_room_hotel_name.getText().isEmpty() || txt_add_room_stock.getText().isEmpty()){
+                Helper.showMessage("fill");
+            }else{
+                String roomType = (String) cmb_room_add_room_type.getModel().getSelectedItem();
+                int hotelID = Hotel.getHotelIDByName(txt_add_room_hotel_name.getText());
+                if (hotelID != 0){
+
+                    boolean result = Room.addRoom(roomType,Integer.parseInt(txt_add_room_stock.getText()),hotelID,Integer.parseInt(txt_add_room_bed.getText()),hasTv,hasMinibar,hasGameConsole,hasVault,hasProjection,Integer.parseInt(txt_add_room_room_size.getText()));
+                    if (result){
+                        Helper.showMessage("Room successfully added!");
+                        updateRoom(tbl_room_list);
+                        txt_add_room_bed.setText(null);
+                        txt_add_room_room_size.setText(null);
+                        txt_add_room_hotel_name.setText(null);
+                        txt_add_room_stock.setText(null);
+                    }else{
+                        Helper.showMessage("There is a problem!");
+                    }
+                }else{
+                    Helper.showMessage("Please enter correct hotel name!");
+                }
+            }
+        });
+
+        // ADD ROOM CHECKBOXES
+        check_room_add_tv.addActionListener(e -> {
+            if (hasTv == 0){
+                hasTv = 1;
+            }else {
+                hasTv = 0;
+            }
+        });
+        check_room_add_bar.addActionListener(e -> {
+            if (hasMinibar == 0){
+                hasMinibar = 1;
+            }else {
+                hasMinibar = 0;
+            }
+        });
+        check_room_add_game.addActionListener(e -> {
+            if (hasGameConsole == 0){
+                hasGameConsole = 1;
+            }else {
+                hasGameConsole = 0;
+            }
+        });
+        check_room_add_vault.addActionListener(e -> {
+            if (hasVault == 0){
+                hasVault = 1;
+            }else {
+                hasVault = 0;
+            }
+        });
+        check_room_add_projection.addActionListener(e -> {
+            if (hasProjection == 0){
+                hasProjection = 1;
+            }else {
+                hasProjection = 0;
+            }
+        });
+    }
+
+    // ROOM UPDATE
+
+    public static void updateRoom(JTable tbl_room_list){
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_room_list.getModel();
+        clearModel.setRowCount(0);
+
+        mdl_room_list = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //if (column == 0){
+                return false;
+                //}
+                //return super.isCellEditable(row, column);
+            }
+        };
+
+        Object[] col_room_list = {"ID","Hotel Name","Room Type","Stock","Room Size"};
+        mdl_room_list.setColumnIdentifiers(col_room_list);
+
+        ArrayList<Room> roomList;
+        roomList = Room.getRoomList();
+        for (Room room : roomList){
+            String hotelName = Hotel.getHotelNameByID(room.getHotelID());
+            if (hotelName != null){
+                row_room_list = new Object[]{room.getRoomID(),hotelName,room.getRoomType(),room.getStockCount(),room.getRoomSizeM()};
+                mdl_room_list.addRow(row_room_list);
+            }
+        }
+        tbl_room_list.setModel(mdl_room_list);
     }
 
     // Update hotel list

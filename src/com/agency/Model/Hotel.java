@@ -143,6 +143,46 @@ public class Hotel {
         }
     }
 
+    public static int getHotelIDByName(String hotel_name){
+        String query = "SELECT hotel_id FROM hotels WHERE hotel_name = ?";
+        int hotel_id  = 0;
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setString(1,hotel_name);
+
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()){
+                hotel_id = rs.getInt("hotel_id");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return hotel_id;
+    }
+
+    public static String getHotelNameByID(int hotel_id){
+        String query = "SELECT hotel_name FROM hotels WHERE hotel_id = ?";
+        String hotelName = null;
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setInt(1,hotel_id);
+
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()){
+                hotelName = rs.getString("hotel_name");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return hotelName;
+    }
+
 
     public int getHotelID() {
         return hotelID;
