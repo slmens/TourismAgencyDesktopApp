@@ -1,11 +1,10 @@
 package com.agency.Model;
 
+import com.agency.Helper.Constants;
 import com.agency.Helper.DBConnector;
 import com.agency.Helper.Helper;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Hotel {
@@ -33,8 +32,17 @@ public class Hotel {
     private boolean halfType = false;
     private boolean onlyBed = false;
     private boolean fullCreditExceptAlcohol = false;
+    // Hotel price multipliers
+    private double kidPriceMultiplier;
+    private double ultraAllIncludedPriceMultiplier;
+    private double allIncludedPriceMultiplier;
+    private double roomBreakfastPriceMultiplier;
+    private double fullTypePriceMultiplier;
+    private double halfTypePriceMultiplier;
+    private double onlyBedPriceMultiplier;
+    private double fullCreditExceptAlcoholPriceMultiplier;
 
-    public Hotel(int hotelID, String hotelName, String hotelCity, String hotelDistrict, String hotelAdress, String hotelEmail, String hotelTelNumber, int hotelStar, boolean freePark, boolean SPA, boolean twentyForSevenService, boolean freeWifi, boolean swimmingPool, boolean gym, boolean concierge, boolean ultraAllIncluded, boolean allIncluded, boolean roomBreakfast, boolean fullType, boolean halfType, boolean onlyBed, boolean fullCreditExceptAlcohol) {
+    public Hotel(int hotelID, String hotelName, String hotelCity, String hotelDistrict, String hotelAdress, String hotelEmail, String hotelTelNumber, int hotelStar, boolean freePark, boolean SPA, boolean twentyForSevenService, boolean freeWifi, boolean swimmingPool, boolean gym, boolean concierge, boolean ultraAllIncluded, boolean allIncluded, boolean roomBreakfast, boolean fullType, boolean halfType, boolean onlyBed, boolean fullCreditExceptAlcohol,double kidPriceMultiplier,double ultraAllIncludedPriceMultiplier,double allIncludedPriceMultiplier,double roomBreakfastPriceMultiplier,double fullTypePriceMultiplier,double halfTypePriceMultiplier,double onlyBedPriceMultiplier,double fullCreditExceptAlcoholPriceMultiplier) {
         this.hotelID = hotelID;
         this.hotelName = hotelName;
         this.hotelCity = hotelCity;
@@ -57,6 +65,14 @@ public class Hotel {
         this.halfType = halfType;
         this.onlyBed = onlyBed;
         this.fullCreditExceptAlcohol = fullCreditExceptAlcohol;
+        this.kidPriceMultiplier = kidPriceMultiplier;
+        this.ultraAllIncludedPriceMultiplier = ultraAllIncludedPriceMultiplier;
+        this.allIncludedPriceMultiplier = allIncludedPriceMultiplier;
+        this.roomBreakfastPriceMultiplier = roomBreakfastPriceMultiplier;
+        this.fullTypePriceMultiplier = fullTypePriceMultiplier;
+        this.halfTypePriceMultiplier = halfTypePriceMultiplier;
+        this.onlyBedPriceMultiplier = onlyBedPriceMultiplier;
+        this.fullCreditExceptAlcoholPriceMultiplier = fullCreditExceptAlcoholPriceMultiplier;
     }
 
 
@@ -71,7 +87,7 @@ public class Hotel {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()){
-                obj = new Hotel(rs.getInt("hotel_id"),rs.getString("hotel_name"), rs.getString("hotel_city"),rs.getString("hotel_district"),rs.getString("hotel_adress"),rs.getString("hotel_email"),rs.getString("hotel_tel"),rs.getInt("hotel_star"),rs.getBoolean("freePark"),rs.getBoolean("SPA"),rs.getBoolean("twentyForSevenService"),rs.getBoolean("freeWifi"),rs.getBoolean("swimmingPool"),rs.getBoolean("gym"), rs.getBoolean("concierge"), rs.getBoolean("ultraAllIncluded"),rs.getBoolean("allIncluded"),rs.getBoolean("roomBreakfast"), rs.getBoolean("fullType"), rs.getBoolean("halfType"), rs.getBoolean("onlyBed"), rs.getBoolean("fullCreditExceptAlcohol"));
+                obj = new Hotel(rs.getInt("hotel_id"),rs.getString("hotel_name"), rs.getString("hotel_city"),rs.getString("hotel_district"),rs.getString("hotel_adress"),rs.getString("hotel_email"),rs.getString("hotel_tel"),rs.getInt("hotel_star"),rs.getBoolean("freePark"),rs.getBoolean("SPA"),rs.getBoolean("twentyForSevenService"),rs.getBoolean("freeWifi"),rs.getBoolean("swimmingPool"),rs.getBoolean("gym"), rs.getBoolean("concierge"), rs.getBoolean("ultraAllIncluded"),rs.getBoolean("allIncluded"),rs.getBoolean("roomBreakfast"), rs.getBoolean("fullType"), rs.getBoolean("halfType"), rs.getBoolean("onlyBed"), rs.getBoolean("fullCreditExceptAlcohol"),rs.getDouble("kid_price_mult"),rs.getDouble("ultra_all_inc_price_mult"),rs.getDouble("all_inc_price_mult"),rs.getDouble("room_break_price_mult"),rs.getDouble("full_type_price_mult"),rs.getDouble("half_type_price_mult"),rs.getDouble("only_bed_price_mult"),rs.getDouble("except_alc_price_mult"));
                 hotelList.add(obj);
             }
         } catch (SQLException e) {
@@ -80,8 +96,8 @@ public class Hotel {
         return hotelList;
     }
 
-    public static boolean addHotel(String hotel_city,String hotel_district,String hotel_adress,String hotel_email,String hotel_tel,String hotel_star,String hotel_name,int freePark,int SPA,int twentyForSevenService,int freeWifi,int swimmingPool,int gym,int concierge,int ultraAllIncluded,int allIncluded,int roomBreakfast,int fullType,int halfType,int onlyBed,int fullCreditExceptAlcohol){
-        String query = "INSERT INTO hotels (hotel_city,hotel_district,hotel_adress,hotel_email,hotel_tel,hotel_star,hotel_name,freePark,SPA,twentyForSevenService,freeWifi,swimmingPool,gym,concierge,ultraAllIncluded,allIncluded,roomBreakfast,fullType,halfType,onlyBed,fullCreditExceptAlcohol) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    public static boolean addHotel(String hotel_city,String hotel_district,String hotel_adress,String hotel_email,String hotel_tel,int hotel_star,String hotel_name,int freePark,int SPA,int twentyForSevenService,int freeWifi,int swimmingPool,int gym,int concierge,int ultraAllIncluded,int allIncluded,int roomBreakfast,int fullType,int halfType,int onlyBed,int fullCreditExceptAlcohol,double kidPriceMultiplier,double ultraAllIncludedPriceMultiplier,double allIncludedPriceMultiplier,double roomBreakfastPriceMultiplier,double fullTypePriceMultiplier,double halfTypePriceMultiplier,double onlyBedPriceMultiplier,double fullCreditExceptAlcoholPriceMultiplier){
+        String query = "INSERT INTO hotels (hotel_city,hotel_district,hotel_adress,hotel_email,hotel_tel,hotel_star,hotel_name,freePark,SPA,twentyForSevenService,freeWifi,swimmingPool,gym,concierge,ultraAllIncluded,allIncluded,roomBreakfast,fullType,halfType,onlyBed,fullCreditExceptAlcohol,kid_price_mult,ultra_all_inc_price_mult,all_inc_price_mult,room_break_price_mult,full_type_price_mult,half_type_price_mult,only_bed_price_mult,except_alc_price_mult) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         if (getFetch(hotel_name)){
             Helper.showMessage("There is another hotel with that name! Couldn't create hotel!");
@@ -93,7 +109,7 @@ public class Hotel {
                 st.setString(3,hotel_adress);
                 st.setString(4,hotel_email);
                 st.setString(5,hotel_tel);
-                st.setString(6,hotel_star);
+                st.setInt(6,hotel_star);
                 st.setString(7,hotel_name);
                 st.setInt(8,freePark);
                 st.setInt(9,SPA);
@@ -109,6 +125,14 @@ public class Hotel {
                 st.setInt(19,halfType);
                 st.setInt(20,onlyBed);
                 st.setInt(21,fullCreditExceptAlcohol);
+                st.setDouble(22,kidPriceMultiplier);
+                st.setDouble(23,ultraAllIncludedPriceMultiplier);
+                st.setDouble(24,allIncludedPriceMultiplier);
+                st.setDouble(25,roomBreakfastPriceMultiplier);
+                st.setDouble(26,fullTypePriceMultiplier);
+                st.setDouble(27,halfTypePriceMultiplier);
+                st.setDouble(28,onlyBedPriceMultiplier);
+                st.setDouble(29,fullCreditExceptAlcoholPriceMultiplier);
 
                 return st.executeUpdate() != -1;
             } catch (SQLException e) {
@@ -181,6 +205,44 @@ public class Hotel {
         }
 
         return hotelName;
+    }
+
+    public static boolean deleteHotel(int hotelID){
+        Connection connect = null;
+        try {
+            connect = DriverManager.getConnection(Constants.DB_URL,Constants.DB_UNAME,Constants.DB_PASS);
+            connect.setAutoCommit(false);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String query = "DELETE FROM hotels WHERE hotel_id = ?";
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setInt(1,hotelID);
+
+            st.executeUpdate();
+
+            boolean res = Room.deleteAllRoomWithHotelID(hotelID);
+
+            if (res){
+                connect.commit();
+                return true;
+            }
+
+        } catch (SQLException e) {
+            if (connect != null){
+                try {
+                    connect.rollback();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            throw new RuntimeException(e);
+        }
+
+        return false;
     }
 
 

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.PropertyResourceBundle;
 
 public class Reservation {
     private int ID;
@@ -59,6 +60,19 @@ public class Reservation {
             throw new RuntimeException(e);
         }
         return reservationList;
+    }
+
+    public static boolean deleteReservation(int reservation_id){
+        String query = "DELETE FROM reservations WHERE reservation_id = ?";
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setInt(1, reservation_id);
+
+            return st.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

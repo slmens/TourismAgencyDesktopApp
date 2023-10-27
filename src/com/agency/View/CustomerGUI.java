@@ -22,6 +22,7 @@ public class CustomerGUI extends JFrame{
     public static int entranceDay = 0;
     public static int entranceMonth = 0;
     public static int entranceYear = 0;
+    // Çıkış yapacağı tarih giriş yapacağı tarihten büyük mü
 
     public CustomerGUI(User customer) {
         this.customer = customer;

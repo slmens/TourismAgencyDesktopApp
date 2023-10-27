@@ -6,6 +6,7 @@ import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class User {
     // pass,username, fullname,type,
@@ -25,6 +26,27 @@ public class User {
         this.userType = userType;
     }
 
+
+    // GET ALL USERS
+    public static ArrayList<User> getUserList(){
+        String query = "SELECT * FROM users";
+        ArrayList<User> userList = new ArrayList<>();
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()){
+                User user = new User(rs.getInt("user_id"),rs.getString("user_tel"),rs.getString("full_name"),rs.getString("user_name"),rs.getString("pass"),rs.getString("user_type"));
+                userList.add(user);
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return userList;
+    }
 
     // USER ADD METHOD
     public static boolean userAdd(String fullName,String uName, String pass, String userType,String userTel){
@@ -88,6 +110,19 @@ public class User {
         }
 
         return obj;
+    }
+
+    public static boolean deleteUser(int id){
+        String query = "DELETE FROM users WHERE user_id = ?";
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setInt(1,id);
+
+            return st.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

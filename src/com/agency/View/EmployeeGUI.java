@@ -8,7 +8,9 @@ import com.agency.Model.Room;
 import com.agency.Model.User;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class EmployeeGUI extends JFrame{
@@ -53,6 +55,16 @@ public class EmployeeGUI extends JFrame{
     private JCheckBox check_room_add_bar;
     private JCheckBox check_room_add_game;
     private JButton btn_add_room;
+    private JTextField txt_add_room_first_period;
+    private JTextField txt_add_room_second_period;
+    private JTextField txt_add_hotel_kid_price_mult;
+    private JTextField txt_add_hotel_ultra_all_price_mult;
+    private JTextField txt_add_hotel_all_price_mult;
+    private JTextField txt_add_hotel_breakfast_price_mult;
+    private JTextField txt_add_hotel_full_price_mult;
+    private JTextField txt_add_hotel_half_price_mult;
+    private JTextField txt_add_hotel_bed_price_mult;
+    private JTextField txt_add_hotel_full_credit_price_mult;
     private User employee;
 
     //CheckBox Variables
@@ -82,21 +94,23 @@ public class EmployeeGUI extends JFrame{
     // Hotel table variables
     private static DefaultTableModel mdl_hotel_list;
     private static Object[] row_hotel_list;
-    //private JPopupMenu patikaMenu;
+    private static JPopupMenu hotelMenu;
 
     // Reservations table variables
     private static DefaultTableModel mdl_reservation_list;
     private static Object[] row_reservation_list;
+    private JPopupMenu reservationsMenu;
 
     // Room table variables
     private static DefaultTableModel mdl_room_list;
     private static Object[] row_room_list;
+    private static JPopupMenu roomMenu;
 
 
     public EmployeeGUI(User employee) {
         this.employee = employee;
         add(wrapper);
-        setSize(1300,500);
+        setSize(1500,600);
         setLocation(Helper.screenCenter("x",getSize()),Helper.screenCenter("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Constants.PROJECT_TITLE);
@@ -107,20 +121,80 @@ public class EmployeeGUI extends JFrame{
 
         updateHotelTable(tbl_hotel_list);
         tbl_hotel_list.getTableHeader().setReorderingAllowed(false);
-        tbl_hotel_list.getColumnModel().getColumn(0).setMaxWidth(50);
+        hotelMenu = new JPopupMenu();
+        JMenuItem deleteHotel = new JMenuItem("Delete the Hotel");
+        hotelMenu.add(deleteHotel);
+        tbl_hotel_list.setComponentPopupMenu(hotelMenu);
+
+        deleteHotel.addActionListener(e -> {
+            int selectedHotelID = (int) tbl_hotel_list.getValueAt(tbl_hotel_list.getSelectedRow(),0);
+            boolean result = Hotel.deleteHotel(selectedHotelID);
+
+            if (result){
+                Helper.showMessage("The hotel deleted successfully!");
+                updateHotelTable(tbl_hotel_list);
+                updateRoom(tbl_room_list);
+            }else{
+                Helper.showMessage("Couldn't delete the hotel!");
+            }
+        });
 
         updateReservationsTable(tbl_reservations_list);
+        reservationsMenu = new JPopupMenu();
+        JMenuItem deleteReservation = new JMenuItem("Delete the reservation!");
+        reservationsMenu.add(deleteReservation);
+        tbl_reservations_list.setComponentPopupMenu(reservationsMenu);
+
+        deleteReservation.addActionListener(e -> {
+            int selectedReservationID = (int) tbl_reservations_list.getValueAt(tbl_reservations_list.getSelectedRow(),0);
+            boolean result = Reservation.deleteReservation(selectedReservationID);
+            if (result){
+                Helper.showMessage("The reservation deleted successfully!");
+                updateReservationsTable(tbl_reservations_list);
+            }else{
+                Helper.showMessage("Couldn't delete the reservation!");
+            }
+        });
+
         updateRoom(tbl_room_list);
+        tbl_room_list.getTableHeader().setReorderingAllowed(false);
+        roomMenu = new JPopupMenu();
+        JMenuItem deleteRoom = new JMenuItem("Delete Room!");
+        roomMenu.add(deleteRoom);
+        tbl_room_list.setComponentPopupMenu(roomMenu);
 
+        deleteRoom.addActionListener(e -> {
+            int selectedRoomID = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),0);
+            boolean result = Room.deleteRoom(selectedRoomID);
+            if (result){
+                Helper.showMessage("The room deleted succesfully!");
+                updateRoom(tbl_room_list);
+            }else{
+                Helper.showMessage("Couldn't delete the room!");
+            }
+        });
 
+        /*tbl_room_list.getModel().addTableModelListener(e -> {
+            if (e.getType() == TableModelEvent.UPDATE){
+                int roomID = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),0);
+                String hotelName = tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),1).toString();
+                String roomType = tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),2).toString();
+                int roomStock = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),3);
+                int roomSize = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),4);
+                int firstPeriodPrice = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),5);
+                int secondPeriodPrice = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),6);
+
+                if ()
+            }
+        });*/
 
 
         // HOTEL ADD BUTTON PRESSED
         btn_add_hotel.addActionListener(e -> {
-            if (txt_hotel_add_name.getText().isEmpty() || txt_hotel_add_star.getText().isEmpty() || txt_hotel_add_city.getText().isEmpty() || txt_hotel_add_mail.getText().isEmpty() || txt_hotel_add_tel.getText().isEmpty() || txt_hotel_add_district.getText().isEmpty() || txt_hotel_add_address.getText().isEmpty()){
+            if (txt_hotel_add_name.getText().isEmpty() || txt_hotel_add_star.getText().isEmpty() || txt_hotel_add_city.getText().isEmpty() || txt_hotel_add_mail.getText().isEmpty() || txt_hotel_add_tel.getText().isEmpty() || txt_hotel_add_district.getText().isEmpty() || txt_hotel_add_address.getText().isEmpty() || txt_add_hotel_kid_price_mult.getText().isEmpty() || txt_add_hotel_ultra_all_price_mult.getText().isEmpty() || txt_add_hotel_all_price_mult.getText().isEmpty() || txt_add_hotel_breakfast_price_mult.getText().isEmpty() || txt_add_hotel_full_price_mult.getText().isEmpty() || txt_add_hotel_half_price_mult.getText().isEmpty() || txt_add_hotel_bed_price_mult.getText().isEmpty() || txt_add_hotel_full_credit_price_mult.getText().isEmpty()){
                 Helper.showMessage("fill");
             }else{
-                boolean result = Hotel.addHotel(txt_hotel_add_city.getText(),txt_hotel_add_district.getText(),txt_hotel_add_address.getText(),txt_hotel_add_mail.getText(),txt_hotel_add_tel.getText(),txt_hotel_add_star.getText(),txt_hotel_add_name.getText(),freePark,SPA,twentyForSevenService,freeWifi,swimmingPool,gym,concierge,ultraAllIncluded,allIncluded,roomBreakfast,fullType,halfType,onlyBed,fullCreditExceptAlcohol);
+                boolean result = Hotel.addHotel(txt_hotel_add_city.getText(),txt_hotel_add_district.getText(),txt_hotel_add_address.getText(),txt_hotel_add_mail.getText(),txt_hotel_add_tel.getText(),Integer.parseInt(txt_hotel_add_star.getText()),txt_hotel_add_name.getText(),freePark,SPA,twentyForSevenService,freeWifi,swimmingPool,gym,concierge,ultraAllIncluded,allIncluded,roomBreakfast,fullType,halfType,onlyBed,fullCreditExceptAlcohol,Double.parseDouble(txt_add_hotel_kid_price_mult.getText()),Double.parseDouble(txt_add_hotel_ultra_all_price_mult.getText()),Double.parseDouble(txt_add_hotel_all_price_mult.getText()),Double.parseDouble(txt_add_hotel_breakfast_price_mult.getText()),Double.parseDouble(txt_add_hotel_full_price_mult.getText()),Double.parseDouble(txt_add_hotel_half_price_mult.getText()),Double.parseDouble(txt_add_hotel_bed_price_mult.getText()),Double.parseDouble(txt_add_hotel_full_credit_price_mult.getText()));
                 if (result){
                     Helper.showMessage("hotelAdded");
                     updateHotelTable(tbl_hotel_list);
@@ -242,14 +316,14 @@ public class EmployeeGUI extends JFrame{
 
         // ADD ROOM BUTTON PRESSED
         btn_add_room.addActionListener(e -> {
-            if (txt_add_room_bed.getText().isEmpty() || txt_add_room_room_size.getText().isEmpty() || txt_add_room_hotel_name.getText().isEmpty() || txt_add_room_stock.getText().isEmpty()){
+            if (txt_add_room_bed.getText().isEmpty() || txt_add_room_room_size.getText().isEmpty() || txt_add_room_hotel_name.getText().isEmpty() || txt_add_room_stock.getText().isEmpty() || txt_add_room_first_period.getText().isEmpty() || txt_add_room_second_period.getText().isEmpty()){
                 Helper.showMessage("fill");
             }else{
                 String roomType = (String) cmb_room_add_room_type.getModel().getSelectedItem();
                 int hotelID = Hotel.getHotelIDByName(txt_add_room_hotel_name.getText());
                 if (hotelID != 0){
 
-                    boolean result = Room.addRoom(roomType,Integer.parseInt(txt_add_room_stock.getText()),hotelID,Integer.parseInt(txt_add_room_bed.getText()),hasTv,hasMinibar,hasGameConsole,hasVault,hasProjection,Integer.parseInt(txt_add_room_room_size.getText()));
+                    boolean result = Room.addRoom(roomType,Integer.parseInt(txt_add_room_stock.getText()),hotelID,Integer.parseInt(txt_add_room_bed.getText()),hasTv,hasMinibar,hasGameConsole,hasVault,hasProjection,Integer.parseInt(txt_add_room_room_size.getText()),Integer.parseInt(txt_add_room_first_period.getText()),Integer.parseInt(txt_add_room_second_period.getText()));
                     if (result){
                         Helper.showMessage("Room successfully added!");
                         updateRoom(tbl_room_list);
@@ -257,6 +331,8 @@ public class EmployeeGUI extends JFrame{
                         txt_add_room_room_size.setText(null);
                         txt_add_room_hotel_name.setText(null);
                         txt_add_room_stock.setText(null);
+                        txt_add_room_second_period.setText(null);
+                        txt_add_room_first_period.setText(null);
                     }else{
                         Helper.showMessage("There is a problem!");
                     }
@@ -320,7 +396,7 @@ public class EmployeeGUI extends JFrame{
             }
         };
 
-        Object[] col_room_list = {"ID","Hotel Name","Room Type","Stock","Room Size"};
+        Object[] col_room_list = {"ID","Hotel Name","Room Type","Stock","Room Size","First Period Price","Second Period Price"};
         mdl_room_list.setColumnIdentifiers(col_room_list);
 
         ArrayList<Room> roomList;
@@ -328,11 +404,19 @@ public class EmployeeGUI extends JFrame{
         for (Room room : roomList){
             String hotelName = Hotel.getHotelNameByID(room.getHotelID());
             if (hotelName != null){
-                row_room_list = new Object[]{room.getRoomID(),hotelName,room.getRoomType(),room.getStockCount(),room.getRoomSizeM()};
+                row_room_list = new Object[]{room.getRoomID(),hotelName,room.getRoomType(),room.getStockCount(),room.getRoomSizeM(),room.getFirstPeriodPrice(),room.getSecondPeriodPrice()};
                 mdl_room_list.addRow(row_room_list);
             }
         }
         tbl_room_list.setModel(mdl_room_list);
+
+        tbl_room_list.getColumnModel().getColumn(0).setMaxWidth(50);
+        tbl_room_list.getColumnModel().getColumn(1).setMaxWidth(230);
+        tbl_room_list.getColumnModel().getColumn(2).setMaxWidth(230);
+        tbl_room_list.getColumnModel().getColumn(3).setMaxWidth(230);
+        tbl_room_list.getColumnModel().getColumn(4).setMaxWidth(230);
+        tbl_room_list.getColumnModel().getColumn(5).setMaxWidth(230);
+        tbl_room_list.getColumnModel().getColumn(6).setMaxWidth(230);
     }
 
     // Update hotel list
@@ -360,6 +444,13 @@ public class EmployeeGUI extends JFrame{
         }
 
         tbl_hotel_list.setModel(mdl_hotel_list);
+
+        tbl_hotel_list.getColumnModel().getColumn(0).setMaxWidth(50);
+        tbl_hotel_list.getColumnModel().getColumn(1).setMaxWidth(300);
+        tbl_hotel_list.getColumnModel().getColumn(2).setMaxWidth(300);
+        tbl_hotel_list.getColumnModel().getColumn(3).setMaxWidth(300);
+        tbl_hotel_list.getColumnModel().getColumn(4).setMaxWidth(300);
+        tbl_hotel_list.getColumnModel().getColumn(5).setMaxWidth(300);
     }
 
     // UPDATE RESERVATION LIST
@@ -390,6 +481,23 @@ public class EmployeeGUI extends JFrame{
         }
 
         tbl_reservations_list.setModel(mdl_reservation_list);
+
+        tbl_reservations_list.getColumnModel().getColumn(0).setMaxWidth(50);
+        tbl_reservations_list.getColumnModel().getColumn(1).setMaxWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(2).setMaxWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(3).setMaxWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(4).setMaxWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(5).setMaxWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(6).setMaxWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(7).setMaxWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(0).setMinWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(1).setMinWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(2).setMinWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(3).setMinWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(4).setMinWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(5).setMinWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(6).setMinWidth(200);
+        tbl_reservations_list.getColumnModel().getColumn(7).setMinWidth(200);
 
     }
 }
