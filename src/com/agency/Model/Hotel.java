@@ -76,6 +76,24 @@ public class Hotel {
     }
 
 
+    public static Hotel getHotelByID(int hotelID){
+        String query = "SELECT * FROM hotels WHERE hotel_id = ?";
+        Hotel hotel = null;
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setInt(1,hotelID);
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()){
+                hotel = new Hotel(rs.getInt("hotel_id"),rs.getString("hotel_name"), rs.getString("hotel_city"),rs.getString("hotel_district"),rs.getString("hotel_adress"),rs.getString("hotel_email"),rs.getString("hotel_tel"),rs.getInt("hotel_star"),rs.getBoolean("freePark"),rs.getBoolean("SPA"),rs.getBoolean("twentyForSevenService"),rs.getBoolean("freeWifi"),rs.getBoolean("swimmingPool"),rs.getBoolean("gym"), rs.getBoolean("concierge"), rs.getBoolean("ultraAllIncluded"),rs.getBoolean("allIncluded"),rs.getBoolean("roomBreakfast"), rs.getBoolean("fullType"), rs.getBoolean("halfType"), rs.getBoolean("onlyBed"), rs.getBoolean("fullCreditExceptAlcohol"),rs.getDouble("kid_price_mult"),rs.getDouble("ultra_all_inc_price_mult"),rs.getDouble("all_inc_price_mult"),rs.getDouble("room_break_price_mult"),rs.getDouble("full_type_price_mult"),rs.getDouble("half_type_price_mult"),rs.getDouble("only_bed_price_mult"),rs.getDouble("except_alc_price_mult"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return hotel;
+    }
 
     public static ArrayList<Hotel> getHotelList(){
         ArrayList<Hotel> hotelList = new ArrayList<>();
@@ -243,6 +261,47 @@ public class Hotel {
         }
 
         return false;
+    }
+
+    public static boolean updateHotel(int id, String hotel_city, String hotel_district, String hotel_adress,String hotel_email, String hotel_tel, int hotel_star, String hotel_name, int freePark, int SPA, int twentyForSevenService, int freeWifi, int swimmingPool, int gym, int concierge, int ultraAllIncluded, int allIncluded, int roomBreakfast, int fullType, int halfType, int onlyBed, int fullCreditExceptAlcohol, int kid_price_mult, int ultra_all_inc_price_mult, int all_inc_price_mult, int room_break_price_mult,int  full_type_price_mult, int  half_type_price_mult, int only_bed_price_mult, int except_alc_price_mult){
+        String query = "UPDATE hotels SET hotel_city = ?,hotel_district = ?, hotel_adress = ?, hotel_email = ?, hotel_tel = ?, hotel_star = ?, hotel_name = ?, freePark = ?, SPA = ?,twentyForSevenService = ? , freeWifi = ?, swimmingPool = ?,gym = ?,concierge = ?,ultraAllIncluded = ?,allIncluded = ?,roomBreakfast = ?,fullType = ?, halfType = ?,onlyBed = ?,fullCreditExceptAlcohol =? ,kid_price_mult = ?,ultra_all_inc_price_mult = ?, all_inc_price_mult = ?,room_break_price_mult = ?, full_type_price_mult = ?, half_type_price_mult = ? , only_bed_price_mult = ?, except_alc_price_mult =? WHERE hotel_id = ?";
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setString(1,hotel_city);
+            st.setString(2,hotel_district);
+            st.setString(3,hotel_adress);
+            st.setString(4,hotel_email);
+            st.setString(5,hotel_tel);
+            st.setInt(6,hotel_star);
+            st.setString(7,hotel_name);
+            st.setInt(8,freePark);
+            st.setInt(9,SPA);
+            st.setInt(10,twentyForSevenService);
+            st.setInt(11,freeWifi);
+            st.setInt(12,swimmingPool);
+            st.setInt(13,gym);
+            st.setInt(14,concierge);
+            st.setInt(15,ultraAllIncluded);
+            st.setInt(16,allIncluded);
+            st.setInt(17,roomBreakfast);
+            st.setInt(18,fullType);
+            st.setInt(19,halfType);
+            st.setInt(20,onlyBed);
+            st.setInt(21,fullCreditExceptAlcohol);
+            st.setInt(22,kid_price_mult);
+            st.setInt(23,ultra_all_inc_price_mult);
+            st.setInt(24,all_inc_price_mult);
+            st.setInt(25,room_break_price_mult);
+            st.setInt(26,full_type_price_mult);
+            st.setInt(27,half_type_price_mult);
+            st.setInt(28,only_bed_price_mult);
+            st.setInt(29,fullCreditExceptAlcohol);
+            st.setInt(30,id);
+
+            return st.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

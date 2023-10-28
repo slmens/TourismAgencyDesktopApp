@@ -122,9 +122,18 @@ public class EmployeeGUI extends JFrame{
         updateHotelTable(tbl_hotel_list);
         tbl_hotel_list.getTableHeader().setReorderingAllowed(false);
         hotelMenu = new JPopupMenu();
-        JMenuItem deleteHotel = new JMenuItem("Delete the Hotel");
+        JMenuItem deleteHotel = new JMenuItem("Delete the hotel");
+        JMenuItem updateHotel = new JMenuItem("Update the hotel");
+        hotelMenu.add(updateHotel);
         hotelMenu.add(deleteHotel);
         tbl_hotel_list.setComponentPopupMenu(hotelMenu);
+
+        updateHotel.addActionListener(e -> {
+            int selectedHotelID = (int) tbl_hotel_list.getValueAt(tbl_hotel_list.getSelectedRow(),0);
+
+            HotelEditGUI hotelEditGUI = new HotelEditGUI(selectedHotelID,tbl_hotel_list);
+
+        });
 
         deleteHotel.addActionListener(e -> {
             int selectedHotelID = (int) tbl_hotel_list.getValueAt(tbl_hotel_list.getSelectedRow(),0);
@@ -159,9 +168,17 @@ public class EmployeeGUI extends JFrame{
         updateRoom(tbl_room_list);
         tbl_room_list.getTableHeader().setReorderingAllowed(false);
         roomMenu = new JPopupMenu();
-        JMenuItem deleteRoom = new JMenuItem("Delete Room!");
+        JMenuItem deleteRoom = new JMenuItem("Delete the room!");
+        JMenuItem updateRoom = new JMenuItem("Update the room");
+        roomMenu.add(updateRoom);
         roomMenu.add(deleteRoom);
         tbl_room_list.setComponentPopupMenu(roomMenu);
+
+        updateRoom.addActionListener(e -> {
+            int roomID = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),0);
+
+            RoomEditGUI roomEditGUI = new RoomEditGUI(roomID,tbl_room_list);
+        });
 
         deleteRoom.addActionListener(e -> {
             int selectedRoomID = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),0);

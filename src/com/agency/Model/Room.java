@@ -107,6 +107,27 @@ public class Room {
 
     }
 
+    public static Room fetchRoomByID(int roomID){
+        String query = "SELECT * FROM rooms WHERE room_id = ?";
+        Room obj = null;
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setInt(1,roomID);
+
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()){
+                obj = new Room(rs.getString("room_type"),rs.getInt("stock_count"),rs.getInt("hotel_id"),rs.getInt("room_id"),rs.getInt("bed_count"),rs.getInt("has_tv"),rs.getInt("has_mini_bar"),rs.getInt("has_game_console"),rs.getInt("has_vault"),rs.getInt("has_projection"),rs.getInt("room_size_m"),rs.getInt("first_period_price"),rs.getInt("second_period_price"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return obj;
+
+    }
+
     public static boolean deleteRoom(int roomID){
         String query = "DELETE FROM rooms WHERE room_id = ?";
 
@@ -133,9 +154,27 @@ public class Room {
         }
     }
 
-    public static boolean updateRoom(int id, String hotelName, String roomType, int roomStock, int roomSize, int firstPeriodPrice, int secondPeriodPrice){
-        //String query = "UPDATE rooms SET room_type = ?,stock_count = ?, "
-        return false;
+    public static boolean updateRoom(int id, String roomType,int roomStock,int bedCount,int hasTv,int hasMinibar,int hasGameConsole,int hasVault,int hasProjection, int roomSize, int firstPeriodPrice, int secondPeriodPrice){
+        String query = "UPDATE rooms SET room_type = ?,stock_count = ?, bed_count = ?, has_tv = ?, has_mini_bar = ?, has_game_console = ?, has_vault = ?, has_projection = ?, room_size_m = ?,first_period_price = ? , second_period_price = ? WHERE room_id = ?";
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setString(1,roomType);
+            st.setInt(2,roomStock);
+            st.setInt(3,bedCount);
+            st.setInt(4,hasTv);
+            st.setInt(5,hasMinibar);
+            st.setInt(6,hasGameConsole);
+            st.setInt(7,hasVault);
+            st.setInt(8,hasProjection);
+            st.setInt(9,roomSize);
+            st.setInt(10,firstPeriodPrice);
+            st.setInt(11,secondPeriodPrice);
+            st.setInt(12,id);
+
+            return st.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public int getFirstPeriodPrice() {
