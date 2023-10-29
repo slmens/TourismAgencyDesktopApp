@@ -46,7 +46,7 @@ public class CustomerGUI extends JFrame{
 
         // GO TO DATE VIEW
         btn_choose_date.addActionListener(e -> {
-            DateViewGUI dateViewGUI = new DateViewGUI();
+            DateViewGUI dateViewGUI = new DateViewGUI("Customer",0);
         });
 
         refreshButton.addActionListener(e -> {

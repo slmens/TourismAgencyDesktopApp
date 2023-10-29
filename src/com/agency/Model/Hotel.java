@@ -32,6 +32,20 @@ public class Hotel {
     private boolean halfType = false;
     private boolean onlyBed = false;
     private boolean fullCreditExceptAlcohol = false;
+    // Hotel season variables
+    private int first_period_start_day;
+    private int first_period_start_month;
+    private int first_period_start_year;
+    private int first_period_end_day;
+    private int first_period_end_month;
+    private int first_period_end_year;
+
+    private int second_period_start_day;
+    private int second_period_start_month;
+    private int second_period_start_year;
+    private int second_period_end_day;
+    private int second_period_end_month;
+    private int second_period_end_year;
     // Hotel price multipliers
     private double kidPriceMultiplier;
     private double ultraAllIncludedPriceMultiplier;
@@ -42,7 +56,7 @@ public class Hotel {
     private double onlyBedPriceMultiplier;
     private double fullCreditExceptAlcoholPriceMultiplier;
 
-    public Hotel(int hotelID, String hotelName, String hotelCity, String hotelDistrict, String hotelAdress, String hotelEmail, String hotelTelNumber, int hotelStar, boolean freePark, boolean SPA, boolean twentyForSevenService, boolean freeWifi, boolean swimmingPool, boolean gym, boolean concierge, boolean ultraAllIncluded, boolean allIncluded, boolean roomBreakfast, boolean fullType, boolean halfType, boolean onlyBed, boolean fullCreditExceptAlcohol,double kidPriceMultiplier,double ultraAllIncludedPriceMultiplier,double allIncludedPriceMultiplier,double roomBreakfastPriceMultiplier,double fullTypePriceMultiplier,double halfTypePriceMultiplier,double onlyBedPriceMultiplier,double fullCreditExceptAlcoholPriceMultiplier) {
+    public Hotel(int hotelID, String hotelName, String hotelCity, String hotelDistrict, String hotelAdress, String hotelEmail, String hotelTelNumber, int hotelStar, boolean freePark, boolean SPA, boolean twentyForSevenService, boolean freeWifi, boolean swimmingPool, boolean gym, boolean concierge, boolean ultraAllIncluded, boolean allIncluded, boolean roomBreakfast, boolean fullType, boolean halfType, boolean onlyBed, boolean fullCreditExceptAlcohol,double kidPriceMultiplier,double ultraAllIncludedPriceMultiplier,double allIncludedPriceMultiplier,double roomBreakfastPriceMultiplier,double fullTypePriceMultiplier,double halfTypePriceMultiplier,double onlyBedPriceMultiplier,double fullCreditExceptAlcoholPriceMultiplier, int first_period_start_day,int first_period_start_month,int first_period_start_year, int first_period_end_day, int first_period_end_month, int first_period_end_year,int second_period_start_day, int second_period_start_month, int second_period_start_year,int second_period_end_day, int second_period_end_month, int second_period_end_year ) {
         this.hotelID = hotelID;
         this.hotelName = hotelName;
         this.hotelCity = hotelCity;
@@ -73,6 +87,18 @@ public class Hotel {
         this.halfTypePriceMultiplier = halfTypePriceMultiplier;
         this.onlyBedPriceMultiplier = onlyBedPriceMultiplier;
         this.fullCreditExceptAlcoholPriceMultiplier = fullCreditExceptAlcoholPriceMultiplier;
+        this.first_period_start_day = first_period_start_day;
+        this.first_period_start_month = first_period_start_month;
+        this.first_period_start_year = first_period_start_year;
+        this.first_period_end_day = first_period_end_day;
+        this.first_period_end_month = first_period_end_month;
+        this.first_period_end_year = first_period_end_year;
+        this.second_period_start_day = second_period_start_day;
+        this.second_period_start_month = second_period_start_month;
+        this.second_period_start_year = second_period_start_year;
+        this.second_period_end_day = second_period_end_day;
+        this.second_period_end_month = second_period_end_month;
+        this.second_period_end_year = second_period_end_year;
     }
 
 
@@ -86,7 +112,7 @@ public class Hotel {
             ResultSet rs = st.executeQuery();
 
             if (rs.next()){
-                hotel = new Hotel(rs.getInt("hotel_id"),rs.getString("hotel_name"), rs.getString("hotel_city"),rs.getString("hotel_district"),rs.getString("hotel_adress"),rs.getString("hotel_email"),rs.getString("hotel_tel"),rs.getInt("hotel_star"),rs.getBoolean("freePark"),rs.getBoolean("SPA"),rs.getBoolean("twentyForSevenService"),rs.getBoolean("freeWifi"),rs.getBoolean("swimmingPool"),rs.getBoolean("gym"), rs.getBoolean("concierge"), rs.getBoolean("ultraAllIncluded"),rs.getBoolean("allIncluded"),rs.getBoolean("roomBreakfast"), rs.getBoolean("fullType"), rs.getBoolean("halfType"), rs.getBoolean("onlyBed"), rs.getBoolean("fullCreditExceptAlcohol"),rs.getDouble("kid_price_mult"),rs.getDouble("ultra_all_inc_price_mult"),rs.getDouble("all_inc_price_mult"),rs.getDouble("room_break_price_mult"),rs.getDouble("full_type_price_mult"),rs.getDouble("half_type_price_mult"),rs.getDouble("only_bed_price_mult"),rs.getDouble("except_alc_price_mult"));
+                hotel = new Hotel(rs.getInt("hotel_id"),rs.getString("hotel_name"), rs.getString("hotel_city"),rs.getString("hotel_district"),rs.getString("hotel_adress"),rs.getString("hotel_email"),rs.getString("hotel_tel"),rs.getInt("hotel_star"),rs.getBoolean("freePark"),rs.getBoolean("SPA"),rs.getBoolean("twentyForSevenService"),rs.getBoolean("freeWifi"),rs.getBoolean("swimmingPool"),rs.getBoolean("gym"), rs.getBoolean("concierge"), rs.getBoolean("ultraAllIncluded"),rs.getBoolean("allIncluded"),rs.getBoolean("roomBreakfast"), rs.getBoolean("fullType"), rs.getBoolean("halfType"), rs.getBoolean("onlyBed"), rs.getBoolean("fullCreditExceptAlcohol"),rs.getDouble("kid_price_mult"),rs.getDouble("ultra_all_inc_price_mult"),rs.getDouble("all_inc_price_mult"),rs.getDouble("room_break_price_mult"),rs.getDouble("full_type_price_mult"),rs.getDouble("half_type_price_mult"),rs.getDouble("only_bed_price_mult"),rs.getDouble("except_alc_price_mult"),rs.getInt("first_period_start_day"),rs.getInt("first_period_start_month"),rs.getInt("first_period_start_year"),rs.getInt("first_period_end_day"),rs.getInt("first_period_end_month"),rs.getInt("first_period_end_year"),rs.getInt("second_period_start_day"),rs.getInt("second_period_start_month"),rs.getInt("second_period_start_year"),rs.getInt("second_period_end_day"),rs.getInt("second_period_end_month"),rs.getInt("second_period_end_year"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -105,7 +131,7 @@ public class Hotel {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()){
-                obj = new Hotel(rs.getInt("hotel_id"),rs.getString("hotel_name"), rs.getString("hotel_city"),rs.getString("hotel_district"),rs.getString("hotel_adress"),rs.getString("hotel_email"),rs.getString("hotel_tel"),rs.getInt("hotel_star"),rs.getBoolean("freePark"),rs.getBoolean("SPA"),rs.getBoolean("twentyForSevenService"),rs.getBoolean("freeWifi"),rs.getBoolean("swimmingPool"),rs.getBoolean("gym"), rs.getBoolean("concierge"), rs.getBoolean("ultraAllIncluded"),rs.getBoolean("allIncluded"),rs.getBoolean("roomBreakfast"), rs.getBoolean("fullType"), rs.getBoolean("halfType"), rs.getBoolean("onlyBed"), rs.getBoolean("fullCreditExceptAlcohol"),rs.getDouble("kid_price_mult"),rs.getDouble("ultra_all_inc_price_mult"),rs.getDouble("all_inc_price_mult"),rs.getDouble("room_break_price_mult"),rs.getDouble("full_type_price_mult"),rs.getDouble("half_type_price_mult"),rs.getDouble("only_bed_price_mult"),rs.getDouble("except_alc_price_mult"));
+                obj = new Hotel(rs.getInt("hotel_id"),rs.getString("hotel_name"), rs.getString("hotel_city"),rs.getString("hotel_district"),rs.getString("hotel_adress"),rs.getString("hotel_email"),rs.getString("hotel_tel"),rs.getInt("hotel_star"),rs.getBoolean("freePark"),rs.getBoolean("SPA"),rs.getBoolean("twentyForSevenService"),rs.getBoolean("freeWifi"),rs.getBoolean("swimmingPool"),rs.getBoolean("gym"), rs.getBoolean("concierge"), rs.getBoolean("ultraAllIncluded"),rs.getBoolean("allIncluded"),rs.getBoolean("roomBreakfast"), rs.getBoolean("fullType"), rs.getBoolean("halfType"), rs.getBoolean("onlyBed"), rs.getBoolean("fullCreditExceptAlcohol"),rs.getDouble("kid_price_mult"),rs.getDouble("ultra_all_inc_price_mult"),rs.getDouble("all_inc_price_mult"),rs.getDouble("room_break_price_mult"),rs.getDouble("full_type_price_mult"),rs.getDouble("half_type_price_mult"),rs.getDouble("only_bed_price_mult"),rs.getDouble("except_alc_price_mult"),rs.getInt("first_period_start_day"),rs.getInt("first_period_start_month"),rs.getInt("first_period_start_year"),rs.getInt("first_period_end_day"),rs.getInt("first_period_end_month"),rs.getInt("first_period_end_year"),rs.getInt("second_period_start_day"),rs.getInt("second_period_start_month"),rs.getInt("second_period_start_year"),rs.getInt("second_period_end_day"),rs.getInt("second_period_end_month"),rs.getInt("second_period_end_year"));
                 hotelList.add(obj);
             }
         } catch (SQLException e) {
@@ -114,8 +140,8 @@ public class Hotel {
         return hotelList;
     }
 
-    public static boolean addHotel(String hotel_city,String hotel_district,String hotel_adress,String hotel_email,String hotel_tel,int hotel_star,String hotel_name,int freePark,int SPA,int twentyForSevenService,int freeWifi,int swimmingPool,int gym,int concierge,int ultraAllIncluded,int allIncluded,int roomBreakfast,int fullType,int halfType,int onlyBed,int fullCreditExceptAlcohol,double kidPriceMultiplier,double ultraAllIncludedPriceMultiplier,double allIncludedPriceMultiplier,double roomBreakfastPriceMultiplier,double fullTypePriceMultiplier,double halfTypePriceMultiplier,double onlyBedPriceMultiplier,double fullCreditExceptAlcoholPriceMultiplier){
-        String query = "INSERT INTO hotels (hotel_city,hotel_district,hotel_adress,hotel_email,hotel_tel,hotel_star,hotel_name,freePark,SPA,twentyForSevenService,freeWifi,swimmingPool,gym,concierge,ultraAllIncluded,allIncluded,roomBreakfast,fullType,halfType,onlyBed,fullCreditExceptAlcohol,kid_price_mult,ultra_all_inc_price_mult,all_inc_price_mult,room_break_price_mult,full_type_price_mult,half_type_price_mult,only_bed_price_mult,except_alc_price_mult) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    public static boolean addHotel(String hotel_city,String hotel_district,String hotel_adress,String hotel_email,String hotel_tel,int hotel_star,String hotel_name,boolean freePark,boolean SPA,boolean twentyForSevenService,boolean freeWifi,boolean swimmingPool,boolean gym,boolean concierge,boolean ultraAllIncluded,boolean allIncluded,boolean roomBreakfast,boolean fullType,boolean halfType,boolean onlyBed,boolean fullCreditExceptAlcohol,double kidPriceMultiplier,double ultraAllIncludedPriceMultiplier,double allIncludedPriceMultiplier,double roomBreakfastPriceMultiplier,double fullTypePriceMultiplier,double halfTypePriceMultiplier,double onlyBedPriceMultiplier,double fullCreditExceptAlcoholPriceMultiplier,int first_period_start_day,int first_period_start_month,int first_period_start_year,int first_period_end_day,int first_period_end_month,int first_period_end_year,int second_period_start_day,int second_period_start_month,int second_period_start_year,int second_period_end_day,int second_period_end_month, int second_period_end_year ){
+        String query = "INSERT INTO hotels (hotel_city,hotel_district,hotel_adress,hotel_email,hotel_tel,hotel_star,hotel_name,freePark,SPA,twentyForSevenService,freeWifi,swimmingPool,gym,concierge,ultraAllIncluded,allIncluded,roomBreakfast,fullType,halfType,onlyBed,fullCreditExceptAlcohol,kid_price_mult,ultra_all_inc_price_mult,all_inc_price_mult,room_break_price_mult,full_type_price_mult,half_type_price_mult,only_bed_price_mult,except_alc_price_mult,first_period_start_day,first_period_start_month,first_period_start_year,first_period_end_day,first_period_end_month,first_period_end_year,second_period_start_day,second_period_start_month,second_period_start_year,second_period_end_day,second_period_end_month,second_period_end_year) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         if (getFetch(hotel_name)){
             Helper.showMessage("There is another hotel with that name! Couldn't create hotel!");
@@ -129,20 +155,20 @@ public class Hotel {
                 st.setString(5,hotel_tel);
                 st.setInt(6,hotel_star);
                 st.setString(7,hotel_name);
-                st.setInt(8,freePark);
-                st.setInt(9,SPA);
-                st.setInt(10,twentyForSevenService);
-                st.setInt(11,freeWifi);
-                st.setInt(12,swimmingPool);
-                st.setInt(13,gym);
-                st.setInt(14,concierge);
-                st.setInt(15,ultraAllIncluded);
-                st.setInt(16,allIncluded);
-                st.setInt(17,roomBreakfast);
-                st.setInt(18,fullType);
-                st.setInt(19,halfType);
-                st.setInt(20,onlyBed);
-                st.setInt(21,fullCreditExceptAlcohol);
+                st.setBoolean(8,freePark);
+                st.setBoolean(9,SPA);
+                st.setBoolean(10,twentyForSevenService);
+                st.setBoolean(11,freeWifi);
+                st.setBoolean(12,swimmingPool);
+                st.setBoolean(13,gym);
+                st.setBoolean(14,concierge);
+                st.setBoolean(15,ultraAllIncluded);
+                st.setBoolean(16,allIncluded);
+                st.setBoolean(17,roomBreakfast);
+                st.setBoolean(18,fullType);
+                st.setBoolean(19,halfType);
+                st.setBoolean(20,onlyBed);
+                st.setBoolean(21,fullCreditExceptAlcohol);
                 st.setDouble(22,kidPriceMultiplier);
                 st.setDouble(23,ultraAllIncludedPriceMultiplier);
                 st.setDouble(24,allIncludedPriceMultiplier);
@@ -151,6 +177,18 @@ public class Hotel {
                 st.setDouble(27,halfTypePriceMultiplier);
                 st.setDouble(28,onlyBedPriceMultiplier);
                 st.setDouble(29,fullCreditExceptAlcoholPriceMultiplier);
+                st.setInt(30,first_period_start_day);
+                st.setInt(31,first_period_start_month);
+                st.setInt(32,first_period_start_year);
+                st.setInt(33,first_period_end_day);
+                st.setInt(34,first_period_end_month);
+                st.setInt(35,first_period_end_year);
+                st.setInt(36,second_period_start_day);
+                st.setInt(37,second_period_start_month);
+                st.setInt(38,second_period_start_year);
+                st.setInt(39,second_period_end_day);
+                st.setInt(40,second_period_end_month);
+                st.setInt(41,second_period_end_year);
 
                 return st.executeUpdate() != -1;
             } catch (SQLException e) {
@@ -263,8 +301,8 @@ public class Hotel {
         return false;
     }
 
-    public static boolean updateHotel(int id, String hotel_city, String hotel_district, String hotel_adress,String hotel_email, String hotel_tel, int hotel_star, String hotel_name, int freePark, int SPA, int twentyForSevenService, int freeWifi, int swimmingPool, int gym, int concierge, int ultraAllIncluded, int allIncluded, int roomBreakfast, int fullType, int halfType, int onlyBed, int fullCreditExceptAlcohol, int kid_price_mult, int ultra_all_inc_price_mult, int all_inc_price_mult, int room_break_price_mult,int  full_type_price_mult, int  half_type_price_mult, int only_bed_price_mult, int except_alc_price_mult){
-        String query = "UPDATE hotels SET hotel_city = ?,hotel_district = ?, hotel_adress = ?, hotel_email = ?, hotel_tel = ?, hotel_star = ?, hotel_name = ?, freePark = ?, SPA = ?,twentyForSevenService = ? , freeWifi = ?, swimmingPool = ?,gym = ?,concierge = ?,ultraAllIncluded = ?,allIncluded = ?,roomBreakfast = ?,fullType = ?, halfType = ?,onlyBed = ?,fullCreditExceptAlcohol =? ,kid_price_mult = ?,ultra_all_inc_price_mult = ?, all_inc_price_mult = ?,room_break_price_mult = ?, full_type_price_mult = ?, half_type_price_mult = ? , only_bed_price_mult = ?, except_alc_price_mult =? WHERE hotel_id = ?";
+    public static boolean updateHotel(int id, String hotel_city, String hotel_district, String hotel_adress,String hotel_email, String hotel_tel, int hotel_star, String hotel_name, boolean freePark, boolean SPA, boolean twentyForSevenService, boolean freeWifi, boolean swimmingPool, boolean gym, boolean concierge, boolean ultraAllIncluded, boolean allIncluded, boolean roomBreakfast, boolean fullType, boolean halfType, boolean onlyBed, boolean fullCreditExceptAlcohol, double kid_price_mult, double ultra_all_inc_price_mult, double all_inc_price_mult, double room_break_price_mult,double  full_type_price_mult, double  half_type_price_mult, double only_bed_price_mult, double except_alc_price_mult,int first_period_start_day,int first_period_start_month,int first_period_start_year,int first_period_end_day,int first_period_end_month,int first_period_end_year,int second_period_start_day,int second_period_start_month,int second_period_start_year,int second_period_end_day,int second_period_end_month,int second_period_end_year){
+        String query = "UPDATE hotels SET hotel_city = ?,hotel_district = ?, hotel_adress = ?, hotel_email = ?, hotel_tel = ?, hotel_star = ?, hotel_name = ?, freePark = ?, SPA = ?,twentyForSevenService = ? , freeWifi = ?, swimmingPool = ?,gym = ?,concierge = ?,ultraAllIncluded = ?,allIncluded = ?,roomBreakfast = ?,fullType = ?, halfType = ?,onlyBed = ?,fullCreditExceptAlcohol =? ,kid_price_mult = ?,ultra_all_inc_price_mult = ?, all_inc_price_mult = ?,room_break_price_mult = ?, full_type_price_mult = ?, half_type_price_mult = ? , only_bed_price_mult = ?, except_alc_price_mult =?,first_period_start_day = ?,first_period_start_month = ?,first_period_start_year = ?,first_period_end_day = ?,first_period_end_month = ?,first_period_end_year = ?,second_period_start_day = ?,second_period_start_month = ?,second_period_start_year = ?,second_period_end_day = ?,second_period_end_month = ?,second_period_end_year = ? WHERE hotel_id = ?";
         try {
             PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
             st.setString(1,hotel_city);
@@ -274,29 +312,42 @@ public class Hotel {
             st.setString(5,hotel_tel);
             st.setInt(6,hotel_star);
             st.setString(7,hotel_name);
-            st.setInt(8,freePark);
-            st.setInt(9,SPA);
-            st.setInt(10,twentyForSevenService);
-            st.setInt(11,freeWifi);
-            st.setInt(12,swimmingPool);
-            st.setInt(13,gym);
-            st.setInt(14,concierge);
-            st.setInt(15,ultraAllIncluded);
-            st.setInt(16,allIncluded);
-            st.setInt(17,roomBreakfast);
-            st.setInt(18,fullType);
-            st.setInt(19,halfType);
-            st.setInt(20,onlyBed);
-            st.setInt(21,fullCreditExceptAlcohol);
-            st.setInt(22,kid_price_mult);
-            st.setInt(23,ultra_all_inc_price_mult);
-            st.setInt(24,all_inc_price_mult);
-            st.setInt(25,room_break_price_mult);
-            st.setInt(26,full_type_price_mult);
-            st.setInt(27,half_type_price_mult);
-            st.setInt(28,only_bed_price_mult);
-            st.setInt(29,fullCreditExceptAlcohol);
-            st.setInt(30,id);
+            st.setBoolean(8,freePark);
+            st.setBoolean(9,SPA);
+            st.setBoolean(10,twentyForSevenService);
+            st.setBoolean(11,freeWifi);
+            st.setBoolean(12,swimmingPool);
+            st.setBoolean(13,gym);
+            st.setBoolean(14,concierge);
+            st.setBoolean(15,ultraAllIncluded);
+            st.setBoolean(16,allIncluded);
+            st.setBoolean(17,roomBreakfast);
+            st.setBoolean(18,fullType);
+            st.setBoolean(19,halfType);
+            st.setBoolean(20,onlyBed);
+            st.setBoolean(21,fullCreditExceptAlcohol);
+            st.setDouble(22,kid_price_mult);
+            st.setDouble(23,ultra_all_inc_price_mult);
+            st.setDouble(24,all_inc_price_mult);
+            st.setDouble(25,room_break_price_mult);
+            st.setDouble(26,full_type_price_mult);
+            st.setDouble(27,half_type_price_mult);
+            st.setDouble(28,only_bed_price_mult);
+            st.setDouble(29,except_alc_price_mult);
+            st.setInt(30,first_period_start_day);
+            st.setInt(31,first_period_start_month);
+            st.setInt(32,first_period_start_year);
+            st.setInt(33,first_period_end_day);
+            st.setInt(34,first_period_end_month);
+            st.setInt(35,first_period_end_year);
+            st.setInt(36,second_period_start_day);
+            st.setInt(37,second_period_start_month);
+            st.setInt(38,second_period_start_year);
+            st.setInt(39,second_period_end_day);
+            st.setInt(40,second_period_end_month);
+            st.setInt(41,second_period_end_year);
+            st.setInt(42,id);
+
 
             return st.executeUpdate() != -1;
         } catch (SQLException e) {
@@ -304,6 +355,85 @@ public class Hotel {
         }
     }
 
+    public int getFirst_period_start_day() {
+        return first_period_start_day;
+    }
+
+    public int getFirst_period_start_month() {
+        return first_period_start_month;
+    }
+
+    public int getFirst_period_start_year() {
+        return first_period_start_year;
+    }
+
+    public int getFirst_period_end_day() {
+        return first_period_end_day;
+    }
+
+    public int getFirst_period_end_month() {
+        return first_period_end_month;
+    }
+
+    public int getFirst_period_end_year() {
+        return first_period_end_year;
+    }
+
+    public int getSecond_period_start_day() {
+        return second_period_start_day;
+    }
+
+    public int getSecond_period_start_month() {
+        return second_period_start_month;
+    }
+
+    public int getSecond_period_start_year() {
+        return second_period_start_year;
+    }
+
+    public int getSecond_period_end_day() {
+        return second_period_end_day;
+    }
+
+    public int getSecond_period_end_month() {
+        return second_period_end_month;
+    }
+
+    public int getSecond_period_end_year() {
+        return second_period_end_year;
+    }
+
+    public double getKidPriceMultiplier() {
+        return kidPriceMultiplier;
+    }
+
+    public double getUltraAllIncludedPriceMultiplier() {
+        return ultraAllIncludedPriceMultiplier;
+    }
+
+    public double getAllIncludedPriceMultiplier() {
+        return allIncludedPriceMultiplier;
+    }
+
+    public double getRoomBreakfastPriceMultiplier() {
+        return roomBreakfastPriceMultiplier;
+    }
+
+    public double getFullTypePriceMultiplier() {
+        return fullTypePriceMultiplier;
+    }
+
+    public double getHalfTypePriceMultiplier() {
+        return halfTypePriceMultiplier;
+    }
+
+    public double getOnlyBedPriceMultiplier() {
+        return onlyBedPriceMultiplier;
+    }
+
+    public double getFullCreditExceptAlcoholPriceMultiplier() {
+        return fullCreditExceptAlcoholPriceMultiplier;
+    }
 
     public int getHotelID() {
         return hotelID;

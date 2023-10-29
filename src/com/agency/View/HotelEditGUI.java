@@ -42,28 +42,50 @@ public class HotelEditGUI extends JFrame {
     private JTextField txt_hote_edit_half;
     private JTextField txt_hote_edit_bed;
     private JTextField txt_hote_edit_fullCredit;
+    private JButton btn_first_start;
+    private JButton btn_first_end;
+    private JButton btn_second_end;
+    private JButton btn_second_start;
+    private JLabel lbl_first_start;
+    private JLabel lbl_first_end;
+    private JLabel lbl_second_start;
+    private JLabel lbl_second_end;
     Hotel hotel;
 
     // CHECKBOX VARIABLES
-    private int freePark = 0;
-    private int SPA = 0;
-    private int twentyforseven = 0;
-    private int freeWifi = 0;
-    private int pool = 0;
-    private int gym = 0;
-    private int concierge = 0;
-    private int ultraInc = 0;
-    private int allInc = 0;
-    private int roomBreak = 0;
-    private int fullType = 0;
-    private int halfType = 0;
-    private int onlyBed = 0;
-    private int fullCredit = 0;
+    private boolean freePark = false;
+    private boolean SPA = false;
+    private boolean twentyforseven = false;
+    private boolean freeWifi = false;
+    private boolean pool = false;
+    private boolean gym = false;
+    private boolean concierge = false;
+    private boolean ultraInc = false;
+    private boolean allInc = false;
+    private boolean roomBreak = false;
+    private boolean fullType = false;
+    private boolean halfType = false;
+    private boolean onlyBed = false;
+    private boolean fullCredit = false;
+
+    // SEASON VARIABLES
+    static int first_period_start_day;
+    static int first_period_start_month;
+    static int first_period_start_year;
+    static int first_period_end_day;
+    static int first_period_end_month;
+    static int first_period_end_year;
+    static int second_period_start_day;
+    static int second_period_start_month;
+    static int second_period_start_year;
+    static int second_period_end_day;
+    static int second_period_end_month;
+    static int second_period_end_year;
 
 
     public HotelEditGUI(int hotel_id, JTable tbl_hotel_list){
         add(wrapper);
-        setSize(1000,700);
+        setSize(1100,500);
         setLocation(Helper.screenCenter("x",getSize()),Helper.screenCenter("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Constants.PROJECT_TITLE);
@@ -83,50 +105,78 @@ public class HotelEditGUI extends JFrame {
         txt_hote_edit_address.setText(hotel.getHotelAdress());
 
         if (hotel.isFreePark()){
+            freePark = true;
             check_freePark.setSelected(true);
         }
         if (hotel.isSPA()){
+            SPA = true;
             check_spa.setSelected(true);
         }
         if (hotel.isTwentyForSevenService()){
+            twentyforseven = true;
             check_724.setSelected(true);
         }
         if (hotel.isFreeWifi()){
+            freeWifi = true;
             check_freeWifi.setSelected(true);
         }
         if (hotel.isSwimmingPool()){
+            pool = true;
             check_pool.setSelected(true);
         }
         if (hotel.isGym()){
+            gym = true;
             check_gym.setSelected(true);
         }
         if (hotel.isConcierge()){
+            concierge = true;
             check_concierge.setSelected(true);
         }
         if (hotel.isUltraAllIncluded()){
+            ultraInc = true;
             check_ultraAll.setSelected(true);
         }
         if (hotel.isAllIncluded()){
+            allInc = true;
             check_allInc.setSelected(true);
         }
         if (hotel.isRoomBreakfast()){
+            roomBreak = true;
             check_roomBreak.setSelected(true);
         }
         if (hotel.isFullType()){
+            fullType = true;
             check_full.setSelected(true);
         }
         if (hotel.isHalfType()){
+            halfType = true;
             check_half.setSelected(true);
         }
         if (hotel.isOnlyBed()){
+            onlyBed = true;
             check_bed.setSelected(true);
         }
         if (hotel.isFullCreditExceptAlcohol()){
+            fullCredit = true;
             check_fullCredit.setSelected(true);
         }
 
+        txt_hote_edit_kid.setText(String.valueOf(hotel.getKidPriceMultiplier()));
+        txt_hote_edit_ultraAll.setText(String.valueOf(hotel.getUltraAllIncludedPriceMultiplier()));
+        txt_hote_edit_allInc.setText(String.valueOf(hotel.getAllIncludedPriceMultiplier()));
+        txt_hote_edit_roomBreak.setText(String.valueOf(hotel.getRoomBreakfastPriceMultiplier()));
+        txt_hote_edit_full.setText(String.valueOf(hotel.getRoomBreakfastPriceMultiplier()));
+        txt_hote_edit_half.setText(String.valueOf(hotel.getHalfTypePriceMultiplier()));
+        txt_hote_edit_bed.setText(String.valueOf(hotel.getOnlyBedPriceMultiplier()));
+        txt_hote_edit_fullCredit.setText(String.valueOf(hotel.getFullCreditExceptAlcoholPriceMultiplier()));
+
+        lbl_first_start.setText(String.format("Day: %s, Month: %s, Year: %s",hotel.getFirst_period_start_day(),hotel.getFirst_period_start_month(),hotel.getFirst_period_start_year()));
+        lbl_first_end.setText(String.format("Day: %s, Month: %s, Year: %s",hotel.getFirst_period_end_day(),hotel.getFirst_period_end_month(),hotel.getFirst_period_end_year()));
+        lbl_second_start.setText(String.format("Day: %s, Month: %s, Year: %s",hotel.getSecond_period_start_day(),hotel.getSecond_period_start_month(),hotel.getSecond_period_start_year()));
+        lbl_second_end.setText(String.format("Day: %s, Month: %s, Year: %s",hotel.getSecond_period_end_day(),hotel.getSecond_period_end_month(),hotel.getSecond_period_end_year()));
+
         btn_editHotel.addActionListener(e -> {
-            boolean res = Hotel.updateHotel(hotel_id,txt_hote_edit_city.getText(),txt_hote_edit_district.getText(),txt_hote_edit_address.getText(),txt_hote_edit_mail.getText(),txt_hote_edit_tel.getText(),Integer.parseInt(txt_hote_edit_star.getText()),txt_hote_edit_name.getText(),freePark,SPA,twentyforseven,freeWifi,pool,gym,concierge,ultraInc,allInc,roomBreak,fullType,halfType,onlyBed,fullCredit,Integer.parseInt(txt_hote_edit_kid.getText()),Integer.parseInt(txt_hote_edit_ultraAll.getText()),Integer.parseInt(txt_hote_edit_allInc.getText()),Integer.parseInt(txt_hote_edit_roomBreak.getText()),Integer.parseInt(txt_hote_edit_full.getText()),Integer.parseInt(txt_hote_edit_half.getText()),Integer.parseInt(txt_hote_edit_bed.getText()),Integer.parseInt(txt_hote_edit_fullCredit.getText()));
+            boolean res = Hotel.updateHotel(hotel_id,txt_hote_edit_city.getText(),txt_hote_edit_district.getText(),txt_hote_edit_address.getText(),txt_hote_edit_mail.getText(),txt_hote_edit_tel.getText(),Integer.parseInt(txt_hote_edit_star.getText()),txt_hote_edit_name.getText(),freePark,SPA,twentyforseven,freeWifi,pool,gym,concierge,ultraInc,allInc,roomBreak,fullType,halfType,onlyBed,fullCredit, Double.parseDouble(txt_hote_edit_kid.getText()),Double.parseDouble(txt_hote_edit_ultraAll.getText()),Double.parseDouble(txt_hote_edit_allInc.getText()),Double.parseDouble(txt_hote_edit_roomBreak.getText()),Double.parseDouble(txt_hote_edit_full.getText()),Double.parseDouble(txt_hote_edit_half.getText()),Double.parseDouble(txt_hote_edit_bed.getText()),Double.parseDouble(txt_hote_edit_fullCredit.getText()),first_period_start_day,first_period_start_month,first_period_start_year,first_period_end_day,first_period_end_month,first_period_end_year,second_period_start_day,second_period_start_month,second_period_start_year,second_period_end_day,second_period_end_month,second_period_end_year);
             if (res){
                 Helper.showMessage("Hotel successfully updated!");
                 EmployeeGUI.updateHotelTable(tbl_hotel_list);
@@ -136,102 +186,115 @@ public class HotelEditGUI extends JFrame {
             dispose();
         });
         check_freePark.addActionListener(e -> {
-            if (freePark == 1){
-                freePark = 0;
+            if (freePark){
+                freePark = false;
             }else{
-                freePark = 1;
+                freePark = true;
             }
         });
         check_spa.addActionListener(e -> {
-            if (SPA == 1){
-                SPA = 0;
+            if (SPA){
+                SPA = false;
             }else{
-                SPA = 1;
+                SPA = true;
             }
         });
         check_724.addActionListener(e -> {
-            if (twentyforseven == 1){
-                twentyforseven = 0;
+            if (twentyforseven){
+                twentyforseven = false;
             }else{
-                twentyforseven = 1;
+                twentyforseven = true;
             }
         });
         check_freeWifi.addActionListener(e -> {
-            if (freeWifi == 1){
-                freeWifi = 0;
+            if (freeWifi){
+                freeWifi = false;
             }else{
-                freeWifi = 1;
+                freeWifi = true;
             }
         });
         check_pool.addActionListener(e -> {
-            if (pool == 1){
-                pool = 0;
+            if (pool) {
+                pool = false;
             }else{
-                pool = 1;
+                pool = true;
             }
         });
         check_gym.addActionListener(e -> {
-            if (gym == 1){
-                gym = 0;
+            if (gym){
+                gym = false;
             }else{
-                gym = 1;
+                gym = true;
             }
         });
         check_concierge.addActionListener(e -> {
-            if (concierge == 1){
-                concierge = 0;
+            if (concierge){
+                concierge = false;
             }else{
-                concierge = 1;
+                concierge = true;
             }
         });
         check_ultraAll.addActionListener(e -> {
-            if (ultraInc == 1){
-                ultraInc = 0;
+            if (ultraInc){
+                ultraInc = false;
             }else{
-                ultraInc = 1;
+                ultraInc = true;
             }
         });
         check_allInc.addActionListener(e -> {
-            if (allInc == 1){
-                allInc = 0;
+            if (allInc){
+                allInc = false;
             }else{
-                allInc = 1;
+                allInc = true;
             }
         });
         check_roomBreak.addActionListener(e -> {
-            if (roomBreak == 1){
-                roomBreak = 0;
+            if (roomBreak){
+                roomBreak = false;
             }else{
-                roomBreak = 1;
+                roomBreak = true;
             }
         });
         check_full.addActionListener(e -> {
-            if (fullType== 1){
-                fullType = 0;
+            if (fullType){
+                fullType = false;
             }else{
-                fullType = 1;
+                fullType = true;
             }
         });
         check_half.addActionListener(e -> {
-            if (halfType == 1){
-                halfType = 0;
+            if (halfType){
+                halfType = false;
             }else{
-                halfType = 1;
+                halfType = true;
             }
         });
         check_bed.addActionListener(e -> {
-            if (onlyBed == 1){
-                onlyBed = 0;
+            if (onlyBed){
+                onlyBed = false;
             }else{
-                onlyBed = 1;
+                onlyBed = true;
             }
         });
         check_fullCredit.addActionListener(e -> {
-            if (fullCredit == 1){
-                fullCredit = 0;
+            if (fullCredit){
+                fullCredit = false;
             }else{
-                fullCredit = 1;
+                fullCredit = true;
             }
+        });
+
+        btn_first_start.addActionListener(e -> {
+            DateViewGUI dateViewGUI = new DateViewGUI("Edit Hotel",1);
+        });
+        btn_first_end.addActionListener(e -> {
+            DateViewGUI dateViewGUI = new DateViewGUI("Edit Hotel",2);
+        });
+        btn_second_start.addActionListener(e -> {
+            DateViewGUI dateViewGUI = new DateViewGUI("Edit Hotel",3);
+        });
+        btn_second_end.addActionListener(e -> {
+            DateViewGUI dateViewGUI = new DateViewGUI("Edit Hotel",4);
         });
     }
 }

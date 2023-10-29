@@ -8,9 +8,9 @@ import com.agency.Model.Room;
 import com.agency.Model.User;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class EmployeeGUI extends JFrame{
@@ -65,30 +65,48 @@ public class EmployeeGUI extends JFrame{
     private JTextField txt_add_hotel_half_price_mult;
     private JTextField txt_add_hotel_bed_price_mult;
     private JTextField txt_add_hotel_full_credit_price_mult;
+    private JButton btn_first_start;
+    private JButton btn_first_end;
+    private JButton btn_second_start;
+    private JButton btn_second_end;
     private User employee;
 
     //CheckBox Variables
-    private static int freePark = 0;
-    private static int SPA = 0;
-    private static int twentyForSevenService = 0;
-    private static int freeWifi = 0;
-    private static int swimmingPool = 0;
-    private static int gym = 0;
-    private static int concierge = 0;
-    private static int ultraAllIncluded = 0;
-    private static int allIncluded = 0;
-    private static int roomBreakfast = 0;
-    private static int fullType = 0;
-    private static int halfType = 0;
-    private static int onlyBed = 0;
-    private static int fullCreditExceptAlcohol = 0;
+    private static boolean freePark = false;
+    private static boolean SPA = false;
+    private static boolean twentyForSevenService =false;
+    private static boolean freeWifi = false;
+    private static boolean swimmingPool = false;
+    private static boolean gym = false;
+    private static boolean concierge = false;
+    private static boolean ultraAllIncluded = false;
+    private static boolean allIncluded = false;
+    private static boolean roomBreakfast = false;
+    private static boolean fullType = false;
+    private static boolean halfType = false;
+    private static boolean onlyBed = false;
+    private static boolean fullCreditExceptAlcohol = false;
+
+    // SEASON VARIABLES
+    static int first_period_start_day;
+    static int first_period_start_month;
+    static int first_period_start_year;
+    static int first_period_end_day;
+    static int first_period_end_month;
+    static int first_period_end_year;
+    static int second_period_start_day;
+    static int second_period_start_month;
+    static int second_period_start_year;
+    static int second_period_end_day;
+    static int second_period_end_month;
+    static int second_period_end_year;
 
     // Add Room CheckBox Variables
-    private static int hasTv = 0;
-    private static int hasMinibar = 0;
-    private static int hasGameConsole = 0;
-    private static int hasVault = 0;
-    private static int hasProjection = 0;
+    private static boolean hasTv = false;
+    private static boolean hasMinibar = false;
+    private static boolean hasGameConsole = false;
+    private static boolean hasVault = false;
+    private static boolean hasProjection = false;
 
 
     // Hotel table variables
@@ -211,7 +229,7 @@ public class EmployeeGUI extends JFrame{
             if (txt_hotel_add_name.getText().isEmpty() || txt_hotel_add_star.getText().isEmpty() || txt_hotel_add_city.getText().isEmpty() || txt_hotel_add_mail.getText().isEmpty() || txt_hotel_add_tel.getText().isEmpty() || txt_hotel_add_district.getText().isEmpty() || txt_hotel_add_address.getText().isEmpty() || txt_add_hotel_kid_price_mult.getText().isEmpty() || txt_add_hotel_ultra_all_price_mult.getText().isEmpty() || txt_add_hotel_all_price_mult.getText().isEmpty() || txt_add_hotel_breakfast_price_mult.getText().isEmpty() || txt_add_hotel_full_price_mult.getText().isEmpty() || txt_add_hotel_half_price_mult.getText().isEmpty() || txt_add_hotel_bed_price_mult.getText().isEmpty() || txt_add_hotel_full_credit_price_mult.getText().isEmpty()){
                 Helper.showMessage("fill");
             }else{
-                boolean result = Hotel.addHotel(txt_hotel_add_city.getText(),txt_hotel_add_district.getText(),txt_hotel_add_address.getText(),txt_hotel_add_mail.getText(),txt_hotel_add_tel.getText(),Integer.parseInt(txt_hotel_add_star.getText()),txt_hotel_add_name.getText(),freePark,SPA,twentyForSevenService,freeWifi,swimmingPool,gym,concierge,ultraAllIncluded,allIncluded,roomBreakfast,fullType,halfType,onlyBed,fullCreditExceptAlcohol,Double.parseDouble(txt_add_hotel_kid_price_mult.getText()),Double.parseDouble(txt_add_hotel_ultra_all_price_mult.getText()),Double.parseDouble(txt_add_hotel_all_price_mult.getText()),Double.parseDouble(txt_add_hotel_breakfast_price_mult.getText()),Double.parseDouble(txt_add_hotel_full_price_mult.getText()),Double.parseDouble(txt_add_hotel_half_price_mult.getText()),Double.parseDouble(txt_add_hotel_bed_price_mult.getText()),Double.parseDouble(txt_add_hotel_full_credit_price_mult.getText()));
+                boolean result = Hotel.addHotel(txt_hotel_add_city.getText(),txt_hotel_add_district.getText(),txt_hotel_add_address.getText(),txt_hotel_add_mail.getText(),txt_hotel_add_tel.getText(),Integer.parseInt(txt_hotel_add_star.getText()),txt_hotel_add_name.getText(),freePark,SPA,twentyForSevenService,freeWifi,swimmingPool,gym,concierge,ultraAllIncluded,allIncluded,roomBreakfast,fullType,halfType,onlyBed,fullCreditExceptAlcohol,Double.parseDouble(txt_add_hotel_kid_price_mult.getText()),Double.parseDouble(txt_add_hotel_ultra_all_price_mult.getText()),Double.parseDouble(txt_add_hotel_all_price_mult.getText()),Double.parseDouble(txt_add_hotel_breakfast_price_mult.getText()),Double.parseDouble(txt_add_hotel_full_price_mult.getText()),Double.parseDouble(txt_add_hotel_half_price_mult.getText()),Double.parseDouble(txt_add_hotel_bed_price_mult.getText()),Double.parseDouble(txt_add_hotel_full_credit_price_mult.getText()),first_period_start_day,first_period_start_month,first_period_start_year,first_period_end_day,first_period_end_month,first_period_end_year,second_period_start_day,second_period_start_month,second_period_start_year,second_period_end_day,second_period_end_month,second_period_end_year);
                 if (result){
                     Helper.showMessage("hotelAdded");
                     updateHotelTable(tbl_hotel_list);
@@ -232,102 +250,102 @@ public class EmployeeGUI extends JFrame{
 
         // CHECK BOX'S
         check_freePark.addActionListener(e -> {
-            if (freePark == 0){
-                freePark = 1;
+            if (freePark){
+                freePark = false;
             }else{
-                freePark = 0;
+                freePark = true;
             }
         });
         check_724.addActionListener(e -> {
-            if (twentyForSevenService == 0){
-                twentyForSevenService = 1;
+            if (twentyForSevenService){
+                twentyForSevenService = false;
             }else {
-                twentyForSevenService = 0;
+                twentyForSevenService = true;
             }
         });
 
         check_spa.addActionListener(e -> {
-            if (SPA == 0){
-                SPA = 1;
+            if (SPA){
+                SPA = false;
             }else{
-                SPA = 0;
+                SPA = true;
             }
         });
         check_wifi.addActionListener(e -> {
-            if (freeWifi == 0){
-                freeWifi = 1;
+            if (freeWifi){
+                freeWifi = false;
             }else {
-                freeWifi = 0;
+                freeWifi = true;
             }
         });
         check_pool.addActionListener(e -> {
-            if (swimmingPool == 0){
-                swimmingPool = 1;
+            if (swimmingPool){
+                swimmingPool = false;
             }else{
-                swimmingPool = 0;
+                swimmingPool = true;
             }
         });
         check_gym.addActionListener(e -> {
-            if (gym == 0){
-                gym = 1;
+            if (gym){
+                gym = false;
             }else {
-                gym = 0;
+                gym = true;
             }
         });
         check_concierge.addActionListener(e -> {
-            if (concierge == 0){
-                concierge = 1;
+            if (concierge){
+                concierge = false;
             }else {
-                concierge = 0;
+                concierge = true;
             }
         });
         check_ultra.addActionListener(e -> {
-            if (ultraAllIncluded == 0){
-                ultraAllIncluded = 1;
+            if (ultraAllIncluded){
+                ultraAllIncluded = false;
             }else{
-                ultraAllIncluded = 0;
+                ultraAllIncluded = true;
             }
         });
         check_allInc.addActionListener(e -> {
-            if (allIncluded == 0){
-                allIncluded = 1;
+            if (allIncluded){
+                allIncluded = false;
             }else {
-                allIncluded = 0;
+                allIncluded = true;
             }
         });
         check_roomBreak.addActionListener(e -> {
-            if (roomBreakfast == 0){
-                roomBreakfast = 1;
+            if (roomBreakfast){
+                roomBreakfast = false;
             }else {
-                roomBreakfast = 0;
+                roomBreakfast = true;
             }
         });
         check_full.addActionListener(e -> {
-            if (fullType == 0){
-                fullType= 1;
+            if (fullType){
+                fullType= false;
             }else {
-                fullType = 0;
+                fullType = true;
             }
         });
         check_half.addActionListener(e -> {
-            if (halfType == 0){
-                halfType = 1;
+            if (halfType){
+                halfType = false;
             }else {
-                halfType = 0;
+                halfType = true;
             }
         });
         check_onlyBed.addActionListener(e -> {
-            if (onlyBed == 0){
-                onlyBed = 1;
+            if (onlyBed){
+                onlyBed = false;
             }else {
-                onlyBed = 0;
+                onlyBed = true;
             }
         });
         check_fullCredit.addActionListener(e -> {
-            if (fullCreditExceptAlcohol == 0){
-                fullCreditExceptAlcohol = 1;
+            if (fullCreditExceptAlcohol){
+                fullCreditExceptAlcohol = false;
             }else {
-                fullCreditExceptAlcohol = 0;
+                fullCreditExceptAlcohol = true;
             }
         });
 
@@ -361,39 +379,53 @@ public class EmployeeGUI extends JFrame{
 
         // ADD ROOM CHECKBOXES
         check_room_add_tv.addActionListener(e -> {
-            if (hasTv == 0){
-                hasTv = 1;
+            if (hasTv){
+                hasTv = false;
             }else {
-                hasTv = 0;
+                hasTv = true;
             }
         });
         check_room_add_bar.addActionListener(e -> {
-            if (hasMinibar == 0){
-                hasMinibar = 1;
+            if (hasMinibar){
+                hasMinibar = false;
             }else {
-                hasMinibar = 0;
+                hasMinibar = true;
             }
         });
         check_room_add_game.addActionListener(e -> {
-            if (hasGameConsole == 0){
-                hasGameConsole = 1;
+            if (hasGameConsole){
+                hasGameConsole = false;
             }else {
-                hasGameConsole = 0;
+                hasGameConsole = true;
             }
         });
         check_room_add_vault.addActionListener(e -> {
-            if (hasVault == 0){
-                hasVault = 1;
+            if (hasVault){
+                hasVault = false;
             }else {
-                hasVault = 0;
+                hasVault = true;
             }
         });
         check_room_add_projection.addActionListener(e -> {
-            if (hasProjection == 0){
-                hasProjection = 1;
+            if (hasProjection){
+                hasProjection = false;
             }else {
-                hasProjection = 0;
+                hasProjection = true;
             }
+        });
+
+
+        btn_first_start.addActionListener(e -> {
+            DateViewGUI dateViewGUI = new DateViewGUI("Add Hotel",1);
+        });
+        btn_first_end.addActionListener(e -> {
+            DateViewGUI dateViewGUI = new DateViewGUI("Add Hotel",2);
+        });
+        btn_second_start.addActionListener(e -> {
+            DateViewGUI dateViewGUI = new DateViewGUI("Add Hotel",3);
+        });
+        btn_second_end.addActionListener(e -> {
+            DateViewGUI dateViewGUI = new DateViewGUI("Add Hotel",4);
         });
     }
 

@@ -13,17 +13,22 @@ import java.util.Properties;
 public class DateViewGUI extends JFrame {
     private JPanel wrapper;
     JDatePickerImpl datePicker;
+    private String screen;
+    private int btn;
     int day;
     int month;
     int year;
 
-    public DateViewGUI(){
+    public DateViewGUI(String screen,int btn){
         setSize(400,65);
         setLocation(Helper.screenCenter("x",getSize()),Helper.screenCenter("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Constants.PROJECT_TITLE);
         setResizable(false);
         setVisible(true);
+
+        this.screen = screen;
+        this.btn = btn;
 
         SqlDateModel model = new SqlDateModel();
         model.setSelected(true);
@@ -39,9 +44,57 @@ public class DateViewGUI extends JFrame {
         datePicker.addPropertyChangeListener(evt -> {
             java.util.Date selectedDate = (java.util.Date) datePicker.getModel().getValue();
 
-            CustomerGUI.entranceDay = getDay(selectedDate);
-            CustomerGUI.entranceMonth = getMonth(selectedDate);
-            CustomerGUI.entranceYear = getYear(selectedDate);
+            if (screen.equals("Customer")){
+                CustomerGUI.entranceDay = getDay(selectedDate);
+                CustomerGUI.entranceMonth = getMonth(selectedDate);
+                CustomerGUI.entranceYear = getYear(selectedDate);
+
+            } else if (screen.equals("Add Hotel")) {
+                if (btn == 1){
+                    EmployeeGUI.first_period_start_day = getDay(selectedDate);
+                    EmployeeGUI.first_period_start_month = getMonth(selectedDate);
+                    EmployeeGUI.first_period_start_year = getYear(selectedDate);
+
+                } else if (btn == 2) {
+                    EmployeeGUI.first_period_end_day = getDay(selectedDate);
+                    EmployeeGUI.first_period_end_month = getMonth(selectedDate);
+                    EmployeeGUI.first_period_end_year = getYear(selectedDate);
+
+                } else if (btn == 3) {
+                    EmployeeGUI.second_period_start_day = getDay(selectedDate);
+                    EmployeeGUI.second_period_start_month = getMonth(selectedDate);
+                    EmployeeGUI.second_period_start_year = getYear(selectedDate);
+
+                } else if (btn == 4) {
+                    EmployeeGUI.second_period_end_day = getDay(selectedDate);
+                    EmployeeGUI.second_period_end_month = getMonth(selectedDate);
+                    EmployeeGUI.second_period_end_year = getYear(selectedDate);
+
+                }
+            }else if (screen.equals("Edit Hotel")) {
+                if (btn == 1){
+                    HotelEditGUI.first_period_start_day = getDay(selectedDate);
+                    HotelEditGUI.first_period_start_month = getMonth(selectedDate);
+                    HotelEditGUI.first_period_start_year = getYear(selectedDate);
+
+                } else if (btn == 2) {
+                    HotelEditGUI.first_period_end_day = getDay(selectedDate);
+                    HotelEditGUI.first_period_end_month = getMonth(selectedDate);
+                    HotelEditGUI.first_period_end_year = getYear(selectedDate);
+
+                } else if (btn == 3) {
+                    HotelEditGUI.second_period_start_day = getDay(selectedDate);
+                    HotelEditGUI.second_period_start_month = getMonth(selectedDate);
+                    HotelEditGUI.second_period_start_year = getYear(selectedDate);
+
+                } else if (btn == 4) {
+                    HotelEditGUI.second_period_end_day = getDay(selectedDate);
+                    HotelEditGUI.second_period_end_month = getMonth(selectedDate);
+                    HotelEditGUI.second_period_end_year = getYear(selectedDate);
+
+                }
+            }
+
         });
     }
 

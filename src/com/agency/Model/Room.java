@@ -14,15 +14,15 @@ public class Room {
     private int roomID;
     // Room specs
     private int bedCount;
-    private int hasTv;
-    private int hasMinibar;
-    private int hasGameConsole;
-    private int hasVault;
-    private int hasProjection;
+    private boolean hasTv;
+    private boolean hasMinibar;
+    private boolean hasGameConsole;
+    private boolean hasVault;
+    private boolean hasProjection;
     private int roomSizeM;
     private int firstPeriodPrice;
     private int secondPeriodPrice;
-    public Room(String roomType, int stockCount, int hotelID, int roomID, int bedCount, int hasTv, int hasMinibar, int hasGameConsole, int hasVault, int hasProjection, int roomSizeM,int firstPeriodPrice,int secondPeriodPrice) {
+    public Room(String roomType, int stockCount, int hotelID, int roomID, int bedCount, boolean hasTv, boolean hasMinibar, boolean hasGameConsole, boolean hasVault, boolean hasProjection, int roomSizeM,int firstPeriodPrice,int secondPeriodPrice) {
         this.roomType = roomType;
         this.stockCount = stockCount;
         this.hotelID = hotelID;
@@ -38,7 +38,7 @@ public class Room {
         this.secondPeriodPrice = secondPeriodPrice;
     }
 
-    public static boolean addRoom(String room_type,int stock_count,int hotel_id,int bed_count,int has_tv,int has_mini_bar,int has_game_console,int has_vault,int has_projection,int room_size_m, int firstPeriodPrice,int secondPeriodPrice){
+    public static boolean addRoom(String room_type,int stock_count,int hotel_id,int bed_count,boolean has_tv,boolean has_mini_bar,boolean has_game_console,boolean has_vault,boolean has_projection,int room_size_m, int firstPeriodPrice,int secondPeriodPrice){
         String query = "INSERT INTO rooms (room_type,stock_count,hotel_id,bed_count,has_tv,has_mini_bar,has_game_console,has_vault,has_projection,room_size_m,first_period_price,second_period_price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         Room obj = fetchRoom(room_type,hotel_id);
 
@@ -49,11 +49,11 @@ public class Room {
                 st.setInt(2,stock_count);
                 st.setInt(3,hotel_id);
                 st.setInt(4,bed_count);
-                st.setInt(5,has_tv);
-                st.setInt(6,has_mini_bar);
-                st.setInt(7,has_game_console);
-                st.setInt(8,has_vault);
-                st.setInt(9,has_projection);
+                st.setBoolean(5,has_tv);
+                st.setBoolean(6,has_mini_bar);
+                st.setBoolean(7,has_game_console);
+                st.setBoolean(8,has_vault);
+                st.setBoolean(9,has_projection);
                 st.setInt(10,room_size_m);
                 st.setInt(11,firstPeriodPrice);
                 st.setInt(12,secondPeriodPrice);
@@ -76,7 +76,7 @@ public class Room {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()){
-                obj = new Room(rs.getString("room_type"),rs.getInt("stock_count"),rs.getInt("hotel_id"),rs.getInt("room_id"),rs.getInt("bed_count"),rs.getInt("has_tv"),rs.getInt("has_mini_bar"),rs.getInt("has_game_console"),rs.getInt("has_vault"),rs.getInt("has_projection"),rs.getInt("room_size_m"),rs.getInt("first_period_price"),rs.getInt("second_period_price"));
+                obj = new Room(rs.getString("room_type"),rs.getInt("stock_count"),rs.getInt("hotel_id"),rs.getInt("room_id"),rs.getInt("bed_count"),rs.getBoolean("has_tv"),rs.getBoolean("has_mini_bar"),rs.getBoolean("has_game_console"),rs.getBoolean("has_vault"),rs.getBoolean("has_projection"),rs.getInt("room_size_m"),rs.getInt("first_period_price"),rs.getInt("second_period_price"));
                 roomList.add(obj);
             }
         } catch (SQLException e) {
@@ -97,7 +97,7 @@ public class Room {
             ResultSet rs = st.executeQuery();
 
             if (rs.next()){
-                obj = new Room(rs.getString("room_type"),rs.getInt("stock_count"),rs.getInt("hotel_id"),rs.getInt("room_id"),rs.getInt("bed_count"),rs.getInt("has_tv"),rs.getInt("has_mini_bar"),rs.getInt("has_game_console"),rs.getInt("has_vault"),rs.getInt("has_projection"),rs.getInt("room_size_m"),rs.getInt("first_period_price"),rs.getInt("second_period_price"));
+                obj = new Room(rs.getString("room_type"),rs.getInt("stock_count"),rs.getInt("hotel_id"),rs.getInt("room_id"),rs.getInt("bed_count"),rs.getBoolean("has_tv"),rs.getBoolean("has_mini_bar"),rs.getBoolean("has_game_console"),rs.getBoolean("has_vault"),rs.getBoolean("has_projection"),rs.getInt("room_size_m"),rs.getInt("first_period_price"),rs.getInt("second_period_price"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -118,7 +118,7 @@ public class Room {
             ResultSet rs = st.executeQuery();
 
             if (rs.next()){
-                obj = new Room(rs.getString("room_type"),rs.getInt("stock_count"),rs.getInt("hotel_id"),rs.getInt("room_id"),rs.getInt("bed_count"),rs.getInt("has_tv"),rs.getInt("has_mini_bar"),rs.getInt("has_game_console"),rs.getInt("has_vault"),rs.getInt("has_projection"),rs.getInt("room_size_m"),rs.getInt("first_period_price"),rs.getInt("second_period_price"));
+                obj = new Room(rs.getString("room_type"),rs.getInt("stock_count"),rs.getInt("hotel_id"),rs.getInt("room_id"),rs.getInt("bed_count"),rs.getBoolean("has_tv"),rs.getBoolean("has_mini_bar"),rs.getBoolean("has_game_console"),rs.getBoolean("has_vault"),rs.getBoolean("has_projection"),rs.getInt("room_size_m"),rs.getInt("first_period_price"),rs.getInt("second_period_price"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -154,18 +154,18 @@ public class Room {
         }
     }
 
-    public static boolean updateRoom(int id, String roomType,int roomStock,int bedCount,int hasTv,int hasMinibar,int hasGameConsole,int hasVault,int hasProjection, int roomSize, int firstPeriodPrice, int secondPeriodPrice){
+    public static boolean updateRoom(int id, String roomType,int roomStock,int bedCount,boolean hasTv,boolean hasMinibar,boolean hasGameConsole,boolean hasVault,boolean hasProjection, int roomSize, int firstPeriodPrice, int secondPeriodPrice){
         String query = "UPDATE rooms SET room_type = ?,stock_count = ?, bed_count = ?, has_tv = ?, has_mini_bar = ?, has_game_console = ?, has_vault = ?, has_projection = ?, room_size_m = ?,first_period_price = ? , second_period_price = ? WHERE room_id = ?";
         try {
             PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
             st.setString(1,roomType);
             st.setInt(2,roomStock);
             st.setInt(3,bedCount);
-            st.setInt(4,hasTv);
-            st.setInt(5,hasMinibar);
-            st.setInt(6,hasGameConsole);
-            st.setInt(7,hasVault);
-            st.setInt(8,hasProjection);
+            st.setBoolean(4,hasTv);
+            st.setBoolean(5,hasMinibar);
+            st.setBoolean(6,hasGameConsole);
+            st.setBoolean(7,hasVault);
+            st.setBoolean(8,hasProjection);
             st.setInt(9,roomSize);
             st.setInt(10,firstPeriodPrice);
             st.setInt(11,secondPeriodPrice);
@@ -205,23 +205,23 @@ public class Room {
         return bedCount;
     }
 
-    public int isHasTv() {
+    public boolean isHasTv() {
         return hasTv;
     }
 
-    public int isHasMinibar() {
+    public boolean isHasMinibar() {
         return hasMinibar;
     }
 
-    public int isHasGameConsole() {
+    public boolean isHasGameConsole() {
         return hasGameConsole;
     }
 
-    public int isHasVault() {
+    public boolean isHasVault() {
         return hasVault;
     }
 
-    public int isHasProjection() {
+    public boolean isHasProjection() {
         return hasProjection;
     }
 

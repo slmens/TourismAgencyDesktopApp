@@ -27,11 +27,11 @@ public class RoomEditGUI extends JFrame {
     private JButton editRoomButton;
     private static Room room;
     private static int selectedCMBIndex = 0;
-    private int hasTV = 0;
-    private int hasBar = 0;
-    private int hasGame = 0;
-    private int hasVault = 0;
-    private int hasProjection = 0;
+    private boolean hasTV = false;
+    private boolean hasBar = false;
+    private boolean hasGame = false;
+    private boolean hasVault = false;
+    private boolean hasProjection = false;
 
 
     // dispose ederken employeeden update çağır
@@ -56,24 +56,24 @@ public class RoomEditGUI extends JFrame {
         txt_edit_room_size.setText(String.valueOf(room.getRoomSizeM()));
         txt_edit_room_first_period.setText(String.valueOf(room.getFirstPeriodPrice()));
         txt_edit_room_second_period.setText(String.valueOf(room.getSecondPeriodPrice()));
-        if (room.isHasTv() == 1){
-            hasTV = 1;
+        if (room.isHasTv()){
+            hasTV = true;
             check_edit_room_tv.setSelected(true);
         }
-        if (room.isHasMinibar() == 1){
-            hasBar = 1;
+        if (room.isHasMinibar()){
+            hasBar = true;
             check_edit_room_minibar.setSelected(true);
         }
-        if (room.isHasGameConsole() == 1){
-            hasGame = 1;
+        if (room.isHasGameConsole()){
+            hasGame = true;
             check_edit_room_game.setSelected(true);
         }
-        if (room.isHasVault() == 1){
-            hasVault = 1;
+        if (room.isHasVault()){
+            hasVault = true;
             check_edit_room_vault.setSelected(true);
         }
-        if (room.isHasProjection() == 1){
-            hasProjection = 1;
+        if (room.isHasProjection()){
+            hasProjection = true;
             check_edit_room_projection.setSelected(true);
         }
 
@@ -93,38 +93,38 @@ public class RoomEditGUI extends JFrame {
 
         // CHECKBOXES
         check_edit_room_tv.addActionListener(e -> {
-            if (hasTV == 1){
-                hasTV = 0;
+            if (hasTV){
+                hasTV = false;
             }else{
-                hasTV = 1;
+                hasTV = true;
             }
         });
         check_edit_room_minibar.addActionListener(e -> {
-            if (hasBar == 1){
-                hasBar = 0;
+            if (hasBar){
+                hasBar = false;
             }else{
-                hasBar = 1;
+                hasBar = true;
             }
         });
         check_edit_room_game.addActionListener(e -> {
-            if (hasGame == 1){
-                hasGame = 0;
+            if (hasGame){
+                hasGame = false;
             }else{
-                hasGame = 1;
+                hasGame = true;
             }
         });
         check_edit_room_vault.addActionListener(e -> {
-            if (hasVault == 1){
-                hasVault = 0;
+            if (hasVault){
+                hasVault = false;
             }else{
-                hasVault = 1;
+                hasVault = true;
             }
         });
         check_edit_room_projection.addActionListener(e -> {
-            if (hasProjection == 1){
-                hasProjection = 0;
+            if (hasProjection){
+                hasProjection = false;
             }else{
-                hasProjection = 1;
+                hasProjection = true;
             }
         });
     }
