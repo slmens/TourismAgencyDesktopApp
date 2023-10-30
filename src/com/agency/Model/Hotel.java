@@ -275,7 +275,7 @@ public class Hotel {
         String query = "DELETE FROM hotels WHERE hotel_id = ?";
 
         try {
-            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            PreparedStatement st = connect.prepareStatement(query);
             st.setInt(1,hotelID);
 
             st.executeUpdate();
@@ -354,6 +354,32 @@ public class Hotel {
             throw new RuntimeException(e);
         }
     }
+
+    public static ArrayList<Hotel> searchHotel(String city){
+        ArrayList<Hotel> hotelList = new ArrayList<>();
+        if (city.isEmpty()){
+            return hotelList;
+        }
+        String query = "SELECT * FROM hotels WHERE hotel_city = ?";
+        Hotel obj;
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setString(1,city);
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                obj = new Hotel(rs.getInt("hotel_id"),rs.getString("hotel_name"), rs.getString("hotel_city"),rs.getString("hotel_district"),rs.getString("hotel_adress"),rs.getString("hotel_email"),rs.getString("hotel_tel"),rs.getInt("hotel_star"),rs.getBoolean("freePark"),rs.getBoolean("SPA"),rs.getBoolean("twentyForSevenService"),rs.getBoolean("freeWifi"),rs.getBoolean("swimmingPool"),rs.getBoolean("gym"), rs.getBoolean("concierge"), rs.getBoolean("ultraAllIncluded"),rs.getBoolean("allIncluded"),rs.getBoolean("roomBreakfast"), rs.getBoolean("fullType"), rs.getBoolean("halfType"), rs.getBoolean("onlyBed"), rs.getBoolean("fullCreditExceptAlcohol"),rs.getDouble("kid_price_mult"),rs.getDouble("ultra_all_inc_price_mult"),rs.getDouble("all_inc_price_mult"),rs.getDouble("room_break_price_mult"),rs.getDouble("full_type_price_mult"),rs.getDouble("half_type_price_mult"),rs.getDouble("only_bed_price_mult"),rs.getDouble("except_alc_price_mult"),rs.getInt("first_period_start_day"),rs.getInt("first_period_start_month"),rs.getInt("first_period_start_year"),rs.getInt("first_period_end_day"),rs.getInt("first_period_end_month"),rs.getInt("first_period_end_year"),rs.getInt("second_period_start_day"),rs.getInt("second_period_start_month"),rs.getInt("second_period_start_year"),rs.getInt("second_period_end_day"),rs.getInt("second_period_end_month"),rs.getInt("second_period_end_year"));
+                hotelList.add(obj);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return hotelList;
+    }
+
+
 
     public int getFirst_period_start_day() {
         return first_period_start_day;

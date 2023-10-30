@@ -85,6 +85,26 @@ public class Room {
         return roomList;
     }
 
+    public static ArrayList<Room> getRoomListByHotelID(int hotelID){
+        ArrayList<Room> roomList = new ArrayList<>();
+        String query = "SELECT * FROM rooms WHERE hotel_id = ?";
+        Room obj;
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setInt(1,hotelID);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()){
+                obj = new Room(rs.getString("room_type"),rs.getInt("stock_count"),rs.getInt("hotel_id"),rs.getInt("room_id"),rs.getInt("bed_count"),rs.getBoolean("has_tv"),rs.getBoolean("has_mini_bar"),rs.getBoolean("has_game_console"),rs.getBoolean("has_vault"),rs.getBoolean("has_projection"),rs.getInt("room_size_m"),rs.getInt("first_period_price"),rs.getInt("second_period_price"));
+                roomList.add(obj);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return roomList;
+    }
+
     public static Room fetchRoom(String room_type, int hotel_id){
         String query = "SELECT * FROM rooms WHERE room_type = ? AND hotel_id = ?";
         Room obj = null;
@@ -175,6 +195,42 @@ public class Room {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static boolean updateRoomStock(int roomID){
+        String query = "UPDATE rooms SET stock_count = stock_count + 1 WHERE room_id = ?";
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setInt(1,roomID);
+            return st.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ArrayList<Room> searchRooms(String roomType,boolean tv,boolean minibar, boolean gameconsole, boolean vault, boolean projection){
+        String query = "SELECT * FROM rooms WHERE room_type = ? AND has_tv LIKE {{has_tv}} AND has_mini_bar LIKE {{has_mini_bar}} AND has_game_console LIKE {{has_game_console}} AND has_vault LIKE {{has_vault}} AND has_projection LIKE {{has_projection}}";
+        query = query.replace("{{has_tv}}",String.valueOf(tv));
+        query = query.replace("{{has_mini_bar}}",String.valueOf(minibar));
+        query = query.replace("{{has_game_console}}",String.valueOf(gameconsole));
+        query = query.replace("{{has_vault}}",String.valueOf(vault));
+        query = query.replace("{{has_projection}}",String.valueOf(projection));
+        ArrayList<Room> roomList = new ArrayList<>();
+        Room obj;
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setString(1,roomType);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()){
+                obj = new Room(rs.getString("room_type"),rs.getInt("stock_count"),rs.getInt("hotel_id"),rs.getInt("room_id"),rs.getInt("bed_count"),rs.getBoolean("has_tv"),rs.getBoolean("has_mini_bar"),rs.getBoolean("has_game_console"),rs.getBoolean("has_vault"),rs.getBoolean("has_projection"),rs.getInt("room_size_m"),rs.getInt("first_period_price"),rs.getInt("second_period_price"));
+                roomList.add(obj);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return roomList;
     }
 
     public int getFirstPeriodPrice() {

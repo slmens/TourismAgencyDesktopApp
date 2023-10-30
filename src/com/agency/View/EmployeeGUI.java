@@ -174,7 +174,8 @@ public class EmployeeGUI extends JFrame{
 
         deleteReservation.addActionListener(e -> {
             int selectedReservationID = (int) tbl_reservations_list.getValueAt(tbl_reservations_list.getSelectedRow(),0);
-            boolean result = Reservation.deleteReservation(selectedReservationID);
+            int selectedReservationRoomId = (int) tbl_reservations_list.getValueAt(tbl_reservations_list.getSelectedRow(),3);
+            boolean result = Reservation.deleteReservation(selectedReservationID,selectedReservationRoomId);
             if (result){
                 Helper.showMessage("The reservation deleted successfully!");
                 updateReservationsTable(tbl_reservations_list);
