@@ -234,6 +234,23 @@ public class EmployeeGUI extends JFrame{
                 if (result){
                     Helper.showMessage("hotelAdded");
                     updateHotelTable(tbl_hotel_list);
+
+                    txt_hotel_add_name.setText(null);
+                    txt_hotel_add_star.setText(null);
+                    txt_hotel_add_tel.setText(null);
+                    txt_hotel_add_city.setText(null);
+                    txt_hotel_add_district.setText(null);
+                    txt_hotel_add_address.setText(null);
+                    txt_hotel_add_mail.setText(null);
+                    txt_add_hotel_kid_price_mult.setText(null);
+                    txt_add_hotel_ultra_all_price_mult.setText(null);
+                    txt_add_hotel_all_price_mult.setText(null);
+                    txt_add_hotel_breakfast_price_mult.setText(null);
+                    txt_add_hotel_full_price_mult.setText(null);
+                    txt_add_hotel_half_price_mult.setText(null);
+                    txt_add_hotel_bed_price_mult.setText(null);
+                    txt_add_hotel_full_credit_price_mult.setText(null);
+
                 }else{
                     Helper.showMessage("There is a problem!");
                 }

@@ -2,11 +2,15 @@ package com.agency.View;
 
 import com.agency.Helper.Constants;
 import com.agency.Helper.Helper;
+import com.agency.Model.Reservation;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
 
 import javax.swing.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Properties;
 
@@ -93,8 +97,43 @@ public class DateViewGUI extends JFrame {
                     HotelEditGUI.second_period_end_year = getYear(selectedDate);
 
                 }
-            }
+            }else if (screen.equals("Reservation")){
+                if (btn == 1){
+                    reservationGUI.entrance_day = getDay(selectedDate);
+                    reservationGUI.entrance_month = getMonth(selectedDate);
+                    reservationGUI.entrance_year = getYear(selectedDate);
 
+                    if (reservationGUI.entrance_day < 10 && reservationGUI.entrance_month < 10){
+                        reservationGUI.entrance = (String.format("0%s/0%s/%s",reservationGUI.entrance_day,reservationGUI.entrance_month,reservationGUI.entrance_year));
+                    }else if (reservationGUI.entrance_day < 10 && reservationGUI.entrance_month >= 10){
+                        reservationGUI.entrance = (String.format("0%s/%s/%s",reservationGUI.entrance_day,reservationGUI.entrance_month,reservationGUI.entrance_year));
+                    } else if (reservationGUI.entrance_day > 10 && reservationGUI.entrance_month < 10) {
+                        reservationGUI.entrance = (String.format("%s/0%s/%s",reservationGUI.entrance_day,reservationGUI.entrance_month,reservationGUI.entrance_year));
+                    }else if (reservationGUI.entrance_day > 10 && reservationGUI.entrance_month > 10) {
+                        reservationGUI.exit = (String.format("%s/%s/%s",reservationGUI.entrance_day,reservationGUI.entrance_month,reservationGUI.entrance_year));
+                    }
+
+                } else if (btn == 2) {
+                    reservationGUI.exit_day = getDay(selectedDate);
+                    reservationGUI.exit_month = getMonth(selectedDate);
+                    reservationGUI.exit_year = getYear(selectedDate);
+
+                    if (reservationGUI.exit_day < 10 && reservationGUI.exit_month < 10){
+                        reservationGUI.exit = (String.format("0%s/0%s/%s",reservationGUI.exit_day,reservationGUI.exit_month,reservationGUI.exit_year));
+                    }else if (reservationGUI.exit_day < 10 && reservationGUI.exit_month >= 10){
+                        reservationGUI.exit = (String.format("0%s/%s/%s",reservationGUI.exit_day,reservationGUI.exit_month,reservationGUI.exit_year));
+                    } else if (reservationGUI.exit_day > 10 && reservationGUI.exit_month < 10) {
+                        reservationGUI.exit = (String.format("%s/0%s/%s",reservationGUI.exit_day,reservationGUI.exit_month,reservationGUI.exit_year));
+                    } else if (reservationGUI.exit_day > 10 && reservationGUI.exit_month > 10) {
+                        reservationGUI.exit = (String.format("%s/%s/%s",reservationGUI.exit_day,reservationGUI.exit_month,reservationGUI.exit_year));
+                    }
+
+                }
+            }
+        });
+
+        datePicker.addActionListener(e -> {
+            dispose();
         });
     }
 

@@ -37,6 +37,8 @@ public class CustomerGUI extends JFrame{
     public static int entranceDay = 0;
     public static int entranceMonth = 0;
     public static int entranceYear = 0;
+    public static int lastRoomID;
+    public static int lastHotelID;
     // Çıkış yapacağı tarih giriş yapacağı tarihten büyük mü
 
     //Hotel Variables
@@ -103,15 +105,23 @@ public class CustomerGUI extends JFrame{
 
         tbl_hotel.getSelectionModel().addListSelectionListener(e -> {
             int selectedHotel = (int) tbl_hotel.getValueAt(tbl_hotel.getSelectedRow(),0);
+            lastHotelID = selectedHotel;
             updateRoom(tbl_room,selectedHotel);
         });
 
+        tbl_room.getSelectionModel().addListSelectionListener(e -> {
+            int roomID = (int) tbl_room.getValueAt(tbl_room.getSelectedRow(),0);
+            lastRoomID = roomID;
+        });
+
         roomMenu = new JPopupMenu();
-        JMenuItem deatils = new JMenuItem("Details");
-        roomMenu.add(deatils);
+        JMenuItem details = new JMenuItem("Details");
+        roomMenu.add(details);
         tbl_room.setComponentPopupMenu(roomMenu);
-        deatils.addActionListener(e -> {
-            System.out.println("yes");
+        details.addActionListener(e -> {
+            Room room = Room.fetchRoomByID(lastRoomID);
+            Hotel hotel = Hotel.getHotelByID(lastHotelID);
+            reservationGUI reservationGUI = new reservationGUI(customer,room,hotel);
         });
 
         reservationMenu = new JPopupMenu();
@@ -119,7 +129,6 @@ public class CustomerGUI extends JFrame{
         reservationMenu.add(deleteReservation);
         tbl_my_reservations.setComponentPopupMenu(reservationMenu);
         deleteReservation.addActionListener(e -> {
-            // rezervasyonu sil ve roomun stoğunu bir arttır
 
             int selectedReservation = (int) tbl_my_reservations.getValueAt(tbl_my_reservations.getSelectedRow(),0);
             int roomID = (int) tbl_my_reservations.getValueAt(tbl_my_reservations.getSelectedRow(),2);
