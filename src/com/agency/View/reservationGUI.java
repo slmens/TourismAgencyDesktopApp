@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 public class reservationGUI extends JFrame {
     private JPanel wrapper;
@@ -111,7 +112,7 @@ public class reservationGUI extends JFrame {
     LocalDate exitDate;
 
 
-    public reservationGUI(User customer, Room room, Hotel hotel) {
+    public reservationGUI(User customer, Room room, Hotel hotel,JTable reservationTable) {
         add(wrapper);
         setSize(1100,700);
         setLocation(Helper.screenCenter("x",getSize()),Helper.screenCenter("y",getSize()));
@@ -169,7 +170,7 @@ public class reservationGUI extends JFrame {
         // 3 - Dönemler ayın 1. gününden başlayacak.
 
         cmb_types.addActionListener(e -> {
-            if ((int)cmb_adult.getSelectedItem() == 0){
+            if (cmb_adult.getSelectedItem() == "0"){
                 Helper.showMessage("Please select the person count!");
             }else if (exit_year != 0){
 
@@ -241,6 +242,17 @@ public class reservationGUI extends JFrame {
         // MAKE APPOINTMENT BUTTON
         btn_make_app.addActionListener(e -> {
             // bütün her yer doldurulmuş mu kontrol et ve exit year 0 olmasın
+            if (txt_ıdentity_number.getText().isEmpty() || cmb_adult.getSelectedItem() == "0" || Objects.equals(entrance, "11/11/1111") || Objects.equals(exit, "11/11/2023")){
+                Helper.showMessage("Please fill all the required fields!");
+            }else{
+                if (cmb_adult.getSelectedItem() != null || cmb_child.getSelectedItem() != null){
+                    int personCount = Integer.parseInt((String) cmb_adult.getSelectedItem()) + Integer.parseInt((String) cmb_child.getSelectedItem());
+                    ReservationAprovelGUI reservationAprovelGUI = new ReservationAprovelGUI(hotel,entrance,exit,entrance_day,entrance_month,entrance_year,exit_day,exit_month,exit_year,totalPrice,customer,room,personCount,txt_ıdentity_number.getText(),reservationTable);
+                }else{
+                    Helper.showMessage("Person count is null!");
+                }
+            }
+            dispose();
         });
 
         // DATE PICKER ACTIONS

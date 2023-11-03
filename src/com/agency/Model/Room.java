@@ -197,16 +197,29 @@ public class Room {
         }
     }
 
-    public static boolean updateRoomStock(int roomID){
-        String query = "UPDATE rooms SET stock_count = stock_count + 1 WHERE room_id = ?";
+    public static boolean updateRoomStock(int roomID,int which){
+        if (which == 1){
+            String query = "UPDATE rooms SET stock_count = stock_count + 1 WHERE room_id = ?";
 
-        try {
-            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
-            st.setInt(1,roomID);
-            return st.executeUpdate() != -1;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            try {
+                PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+                st.setInt(1,roomID);
+                return st.executeUpdate() != -1;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }else if (which == -1){
+            String query = "UPDATE rooms SET stock_count = stock_count - 1 WHERE room_id = ?";
+
+            try {
+                PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+                st.setInt(1,roomID);
+                return st.executeUpdate() != -1;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
+        return false;
     }
 
     public static ArrayList<Room> searchRooms(String roomType,boolean tv,boolean minibar, boolean gameconsole, boolean vault, boolean projection){
@@ -232,6 +245,8 @@ public class Room {
         }
         return roomList;
     }
+
+
 
     public int getFirstPeriodPrice() {
         return firstPeriodPrice;

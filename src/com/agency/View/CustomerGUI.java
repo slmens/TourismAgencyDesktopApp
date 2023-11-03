@@ -88,7 +88,7 @@ public class CustomerGUI extends JFrame{
     public CustomerGUI(User customer) {
         this.customer = customer;
         add(wrapper);
-        setSize(1700,700);
+        setSize(1800,700);
         setLocation(Helper.screenCenter("x",getSize()),Helper.screenCenter("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Constants.PROJECT_TITLE);
@@ -104,14 +104,23 @@ public class CustomerGUI extends JFrame{
         updateMyReservations(tbl_my_reservations,customer.getUserID());
 
         tbl_hotel.getSelectionModel().addListSelectionListener(e -> {
-            int selectedHotel = (int) tbl_hotel.getValueAt(tbl_hotel.getSelectedRow(),0);
-            lastHotelID = selectedHotel;
-            updateRoom(tbl_room,selectedHotel);
+            try {
+                int selectedHotel = (int) tbl_hotel.getValueAt(tbl_hotel.getSelectedRow(),0);
+                lastHotelID = selectedHotel;
+                updateRoom(tbl_room,selectedHotel);
+            }catch (Exception ex){
+                System.out.println(ex.getMessage());
+            }
         });
 
         tbl_room.getSelectionModel().addListSelectionListener(e -> {
-            int roomID = (int) tbl_room.getValueAt(tbl_room.getSelectedRow(),0);
-            lastRoomID = roomID;
+            try{
+                int roomID = (int) tbl_room.getValueAt(tbl_room.getSelectedRow(),0);
+                lastRoomID = roomID;
+            }catch (Exception ex){
+                System.out.println(ex.getMessage());
+            }
+
         });
 
         roomMenu = new JPopupMenu();
@@ -121,7 +130,7 @@ public class CustomerGUI extends JFrame{
         details.addActionListener(e -> {
             Room room = Room.fetchRoomByID(lastRoomID);
             Hotel hotel = Hotel.getHotelByID(lastHotelID);
-            reservationGUI reservationGUI = new reservationGUI(customer,room,hotel);
+            reservationGUI reservationGUI = new reservationGUI(customer,room,hotel,tbl_my_reservations);
         });
 
         reservationMenu = new JPopupMenu();
