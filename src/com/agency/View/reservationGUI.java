@@ -114,7 +114,7 @@ public class reservationGUI extends JFrame {
 
     public reservationGUI(User customer, Room room, Hotel hotel,JTable reservationTable) {
         add(wrapper);
-        setSize(1100,700);
+        setSize(1200,700);
         setLocation(Helper.screenCenter("x",getSize()),Helper.screenCenter("y",getSize()));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Constants.PROJECT_TITLE);
@@ -147,13 +147,13 @@ public class reservationGUI extends JFrame {
         lbl_hotel_info_address.setText(hotel.getHotelAdress());
         lbl_hotel_info_email.setText(hotel.getHotelEmail());
 
-        lbl_roomType.setText(String.format("Room type: %s",room.getRoomType()));
-        lbl_bedcount.setText(String.format("Bed count: %s",room.getBedCount()));
-        lbl_hastv.setText(String.format("Has TV: %s",hasTV));
-        lbl_hasmini.setText(String.format("Has minibar: %s",hasMini));
-        lbl_hasgame.setText(String.format("Has game console: %s",hasGame));
-        lbl_has_vault.setText(String.format("Has vault: %s",hasVault));
-        lbl_projection.setText(String.format("Has projection: %s",hasProjection));
+        lbl_roomType.setText(room.getRoomType());
+        lbl_bedcount.setText(String.valueOf(room.getBedCount()));
+        lbl_hastv.setText(hasTV);
+        lbl_hasmini.setText(hasMini);
+        lbl_hasgame.setText(hasGame);
+        lbl_has_vault.setText(hasVault);
+        lbl_projection.setText(hasProjection);
 
         lbl_freepark.setText(hasFreePark);
         lbl_spa.setText(hasSPA);

@@ -22,6 +22,7 @@ public class Room {
     private int roomSizeM;
     private int firstPeriodPrice;
     private int secondPeriodPrice;
+
     public Room(String roomType, int stockCount, int hotelID, int roomID, int bedCount, boolean hasTv, boolean hasMinibar, boolean hasGameConsole, boolean hasVault, boolean hasProjection, int roomSizeM,int firstPeriodPrice,int secondPeriodPrice) {
         this.roomType = roomType;
         this.stockCount = stockCount;
@@ -38,6 +39,7 @@ public class Room {
         this.secondPeriodPrice = secondPeriodPrice;
     }
 
+    // Add room
     public static boolean addRoom(String room_type,int stock_count,int hotel_id,int bed_count,boolean has_tv,boolean has_mini_bar,boolean has_game_console,boolean has_vault,boolean has_projection,int room_size_m, int firstPeriodPrice,int secondPeriodPrice){
         String query = "INSERT INTO rooms (room_type,stock_count,hotel_id,bed_count,has_tv,has_mini_bar,has_game_console,has_vault,has_projection,room_size_m,first_period_price,second_period_price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         Room obj = fetchRoom(room_type,hotel_id);
@@ -66,6 +68,8 @@ public class Room {
         return false;
     }
 
+
+    // Getting all the rooms
     public static ArrayList<Room> getRoomList(){
         ArrayList<Room> roomList = new ArrayList<>();
         String query = "SELECT * FROM rooms";
@@ -85,6 +89,8 @@ public class Room {
         return roomList;
     }
 
+
+    // Getting all the room thas belongs to given hotel ID
     public static ArrayList<Room> getRoomListByHotelID(int hotelID){
         ArrayList<Room> roomList = new ArrayList<>();
         String query = "SELECT * FROM rooms WHERE hotel_id = ?";
@@ -105,6 +111,7 @@ public class Room {
         return roomList;
     }
 
+    // It allows us to see only one post of the same hostel type in a hotel.
     public static Room fetchRoom(String room_type, int hotel_id){
         String query = "SELECT * FROM rooms WHERE room_type = ? AND hotel_id = ?";
         Room obj = null;
@@ -127,6 +134,7 @@ public class Room {
 
     }
 
+    // Getting the room by the given roomID
     public static Room fetchRoomByID(int roomID){
         String query = "SELECT * FROM rooms WHERE room_id = ?";
         Room obj = null;
@@ -148,6 +156,8 @@ public class Room {
 
     }
 
+
+    // Deleting room
     public static boolean deleteRoom(int roomID){
         String query = "DELETE FROM rooms WHERE room_id = ?";
 
@@ -161,6 +171,7 @@ public class Room {
         }
     }
 
+    // When a hotel deleted we delete all the rooms that connected to that hotel with this method
     public static boolean deleteAllRoomWithHotelID(int hotelID){
         String query = "DELETE FROM rooms WHERE hotel_id = ?";
 
@@ -174,6 +185,7 @@ public class Room {
         }
     }
 
+    // Updating the room
     public static boolean updateRoom(int id, String roomType,int roomStock,int bedCount,boolean hasTv,boolean hasMinibar,boolean hasGameConsole,boolean hasVault,boolean hasProjection, int roomSize, int firstPeriodPrice, int secondPeriodPrice){
         String query = "UPDATE rooms SET room_type = ?,stock_count = ?, bed_count = ?, has_tv = ?, has_mini_bar = ?, has_game_console = ?, has_vault = ?, has_projection = ?, room_size_m = ?,first_period_price = ? , second_period_price = ? WHERE room_id = ?";
         try {
@@ -197,6 +209,8 @@ public class Room {
         }
     }
 
+
+    // Method that sets the availability of a room when a reservation is made or deleted
     public static boolean updateRoomStock(int roomID,int which){
         if (which == 1){
             String query = "UPDATE rooms SET stock_count = stock_count + 1 WHERE room_id = ?";
@@ -222,6 +236,7 @@ public class Room {
         return false;
     }
 
+    // Room search method by the given parameters
     public static ArrayList<Room> searchRooms(String roomType,boolean tv,boolean minibar, boolean gameconsole, boolean vault, boolean projection){
         String query = "SELECT * FROM rooms WHERE room_type = ? AND has_tv LIKE {{has_tv}} AND has_mini_bar LIKE {{has_mini_bar}} AND has_game_console LIKE {{has_game_console}} AND has_vault LIKE {{has_vault}} AND has_projection LIKE {{has_projection}}";
         query = query.replace("{{has_tv}}",String.valueOf(tv));

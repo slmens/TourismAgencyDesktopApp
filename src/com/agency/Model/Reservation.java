@@ -26,6 +26,7 @@ public class Reservation {
         this.exit = exit;
     }
 
+    // Getting the reservation that has the given user ID
     public static ArrayList<Reservation> getReservationListByUserId(int user_id){
         ArrayList<Reservation> reservationList = new ArrayList<>();
         String query = "SELECT * FROM reservations WHERE user_id = ?";
@@ -62,6 +63,8 @@ public class Reservation {
         return reservationList;
     }
 
+
+    // Getting all the reservations in our database
     public static ArrayList<Reservation> getReservationList(){
         ArrayList<Reservation> reservationList = new ArrayList<>();
         String query = "SELECT * FROM reservations";
@@ -97,6 +100,8 @@ public class Reservation {
         return reservationList;
     }
 
+
+    // Deleting reservation and incrementing the room stock by 1 with using commit
     public static boolean deleteReservation(int reservation_id,int roomID){
         Connection connect = null;
         try {
@@ -135,6 +140,7 @@ public class Reservation {
         return false;
     }
 
+    // Fetching 1 reservation that has all the given parameters
     public static boolean fetchReservation(int userID,int hotelID,int roomID){
         String query = "SELECT * FROM reservations WHERE user_id = ? AND hotel_id = ? AND room_id = ?";
         Reservation obj = null;
@@ -165,6 +171,7 @@ public class Reservation {
         }
     }
 
+    // Adding reservation
     public static boolean addReservation(int userID,int hotelID,int roomID,int personCount,int entranceDay,String entranceMonth,int entranceYear,int exitDay,String exitMonth,int exitYear,String socialSecurityNumber){
         Connection connect = null;
         try {

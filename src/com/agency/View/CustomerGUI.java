@@ -33,6 +33,8 @@ public class CustomerGUI extends JFrame{
     private JTextField txt_hotel_search_city;
     private JButton btn_hotel_search;
     private JButton backToAllHotelsButton;
+    private JTextField txt_hotel_name;
+    private JButton deleteMyAccountButton;
     private User customer;
     public static int entranceDay = 0;
     public static int entranceMonth = 0;
@@ -109,7 +111,7 @@ public class CustomerGUI extends JFrame{
                 lastHotelID = selectedHotel;
                 updateRoom(tbl_room,selectedHotel);
             }catch (Exception ex){
-                System.out.println(ex.getMessage());
+
             }
         });
 
@@ -118,7 +120,7 @@ public class CustomerGUI extends JFrame{
                 int roomID = (int) tbl_room.getValueAt(tbl_room.getSelectedRow(),0);
                 lastRoomID = roomID;
             }catch (Exception ex){
-                System.out.println(ex.getMessage());
+
             }
 
         });
@@ -207,14 +209,29 @@ public class CustomerGUI extends JFrame{
         // HOTEL SEARCH
         btn_hotel_search.addActionListener(e -> {
             String city = txt_hotel_search_city.getText();
+            String hotelName = txt_hotel_name.getText();
 
-            ArrayList<Hotel> hotelList = Hotel.searchHotel(city);
-            updateHotel(tbl_hotel,hotelList);
+            if (city.isEmpty() && hotelName.isEmpty()){
+                ArrayList<Hotel> allHotelList = Hotel.getHotelList();
+                updateHotel(tbl_hotel,allHotelList);
+            }else{
+                ArrayList<Hotel> hotelList = Hotel.searchHotel(city,hotelName);
+                updateHotel(tbl_hotel,hotelList);
+            }
         });
 
 
         backToAllHotelsButton.addActionListener(e -> {
             updateHotel(tbl_hotel);
+        });
+
+
+        deleteMyAccountButton.addActionListener(e -> {
+            if (Helper.showConfirmDialog(deleteMyAccountButton) == JOptionPane.YES_OPTION){
+                User.deleteUser(customer.getUserID());
+                dispose();
+                LogInGUI logInGUI = new LogInGUI();
+            }
         });
     }
 

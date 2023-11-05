@@ -102,6 +102,7 @@ public class Hotel {
     }
 
 
+    // Getting a single hotel by ID
     public static Hotel getHotelByID(int hotelID){
         String query = "SELECT * FROM hotels WHERE hotel_id = ?";
         Hotel hotel = null;
@@ -121,6 +122,7 @@ public class Hotel {
         return hotel;
     }
 
+    // Getting all the hotels in our database
     public static ArrayList<Hotel> getHotelList(){
         ArrayList<Hotel> hotelList = new ArrayList<>();
         String query = "SELECT * FROM hotels";
@@ -140,6 +142,8 @@ public class Hotel {
         return hotelList;
     }
 
+
+    // Adding hotel method
     public static boolean addHotel(String hotel_city,String hotel_district,String hotel_adress,String hotel_email,String hotel_tel,int hotel_star,String hotel_name,boolean freePark,boolean SPA,boolean twentyForSevenService,boolean freeWifi,boolean swimmingPool,boolean gym,boolean concierge,boolean ultraAllIncluded,boolean allIncluded,boolean roomBreakfast,boolean fullType,boolean halfType,boolean onlyBed,boolean fullCreditExceptAlcohol,double kidPriceMultiplier,double ultraAllIncludedPriceMultiplier,double allIncludedPriceMultiplier,double roomBreakfastPriceMultiplier,double fullTypePriceMultiplier,double halfTypePriceMultiplier,double onlyBedPriceMultiplier,double fullCreditExceptAlcoholPriceMultiplier,int first_period_start_day,int first_period_start_month,int first_period_start_year,int first_period_end_day,int first_period_end_month,int first_period_end_year,int second_period_start_day,int second_period_start_month,int second_period_start_year,int second_period_end_day,int second_period_end_month, int second_period_end_year ){
         String query = "INSERT INTO hotels (hotel_city,hotel_district,hotel_adress,hotel_email,hotel_tel,hotel_star,hotel_name,freePark,SPA,twentyForSevenService,freeWifi,swimmingPool,gym,concierge,ultraAllIncluded,allIncluded,roomBreakfast,fullType,halfType,onlyBed,fullCreditExceptAlcohol,kid_price_mult,ultra_all_inc_price_mult,all_inc_price_mult,room_break_price_mult,full_type_price_mult,half_type_price_mult,only_bed_price_mult,except_alc_price_mult,first_period_start_day,first_period_start_month,first_period_start_year,first_period_end_day,first_period_end_month,first_period_end_year,second_period_start_day,second_period_start_month,second_period_start_year,second_period_end_day,second_period_end_month,second_period_end_year) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -198,6 +202,8 @@ public class Hotel {
         return false;
     }
 
+
+    // Checking if there is a hotel has the given hotel name
     public static boolean getFetch(String hotel_name){
         String query = "SELECT hotel_name FROM hotels WHERE hotel_name =?";
         int hasHotel = 0;
@@ -223,6 +229,7 @@ public class Hotel {
         }
     }
 
+    // Getting hotel ID by the given hotel name
     public static int getHotelIDByName(String hotel_name){
         String query = "SELECT hotel_id FROM hotels WHERE hotel_name = ?";
         int hotel_id  = 0;
@@ -243,6 +250,7 @@ public class Hotel {
         return hotel_id;
     }
 
+    // Getting the hotel name by the given hotel ID
     public static String getHotelNameByID(int hotel_id){
         String query = "SELECT hotel_name FROM hotels WHERE hotel_id = ?";
         String hotelName = null;
@@ -263,6 +271,8 @@ public class Hotel {
         return hotelName;
     }
 
+
+    // Deleting hotel
     public static boolean deleteHotel(int hotelID){
         Connection connect = null;
         try {
@@ -301,6 +311,8 @@ public class Hotel {
         return false;
     }
 
+
+    // Updating hotel
     public static boolean updateHotel(int id, String hotel_city, String hotel_district, String hotel_adress,String hotel_email, String hotel_tel, int hotel_star, String hotel_name, boolean freePark, boolean SPA, boolean twentyForSevenService, boolean freeWifi, boolean swimmingPool, boolean gym, boolean concierge, boolean ultraAllIncluded, boolean allIncluded, boolean roomBreakfast, boolean fullType, boolean halfType, boolean onlyBed, boolean fullCreditExceptAlcohol, double kid_price_mult, double ultra_all_inc_price_mult, double all_inc_price_mult, double room_break_price_mult,double  full_type_price_mult, double  half_type_price_mult, double only_bed_price_mult, double except_alc_price_mult,int first_period_start_day,int first_period_start_month,int first_period_start_year,int first_period_end_day,int first_period_end_month,int first_period_end_year,int second_period_start_day,int second_period_start_month,int second_period_start_year,int second_period_end_day,int second_period_end_month,int second_period_end_year){
         String query = "UPDATE hotels SET hotel_city = ?,hotel_district = ?, hotel_adress = ?, hotel_email = ?, hotel_tel = ?, hotel_star = ?, hotel_name = ?, freePark = ?, SPA = ?,twentyForSevenService = ? , freeWifi = ?, swimmingPool = ?,gym = ?,concierge = ?,ultraAllIncluded = ?,allIncluded = ?,roomBreakfast = ?,fullType = ?, halfType = ?,onlyBed = ?,fullCreditExceptAlcohol =? ,kid_price_mult = ?,ultra_all_inc_price_mult = ?, all_inc_price_mult = ?,room_break_price_mult = ?, full_type_price_mult = ?, half_type_price_mult = ? , only_bed_price_mult = ?, except_alc_price_mult =?,first_period_start_day = ?,first_period_start_month = ?,first_period_start_year = ?,first_period_end_day = ?,first_period_end_month = ?,first_period_end_year = ?,second_period_start_day = ?,second_period_start_month = ?,second_period_start_year = ?,second_period_end_day = ?,second_period_end_month = ?,second_period_end_year = ? WHERE hotel_id = ?";
         try {
@@ -355,26 +367,66 @@ public class Hotel {
         }
     }
 
-    public static ArrayList<Hotel> searchHotel(String city){
-        ArrayList<Hotel> hotelList = new ArrayList<>();
-        if (city.isEmpty()){
-            return hotelList;
-        }
-        String query = "SELECT * FROM hotels WHERE hotel_city = ?";
-        Hotel obj;
-        try {
-            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
-            st.setString(1,city);
 
-            ResultSet rs = st.executeQuery();
-            while (rs.next()){
-                obj = new Hotel(rs.getInt("hotel_id"),rs.getString("hotel_name"), rs.getString("hotel_city"),rs.getString("hotel_district"),rs.getString("hotel_adress"),rs.getString("hotel_email"),rs.getString("hotel_tel"),rs.getInt("hotel_star"),rs.getBoolean("freePark"),rs.getBoolean("SPA"),rs.getBoolean("twentyForSevenService"),rs.getBoolean("freeWifi"),rs.getBoolean("swimmingPool"),rs.getBoolean("gym"), rs.getBoolean("concierge"), rs.getBoolean("ultraAllIncluded"),rs.getBoolean("allIncluded"),rs.getBoolean("roomBreakfast"), rs.getBoolean("fullType"), rs.getBoolean("halfType"), rs.getBoolean("onlyBed"), rs.getBoolean("fullCreditExceptAlcohol"),rs.getDouble("kid_price_mult"),rs.getDouble("ultra_all_inc_price_mult"),rs.getDouble("all_inc_price_mult"),rs.getDouble("room_break_price_mult"),rs.getDouble("full_type_price_mult"),rs.getDouble("half_type_price_mult"),rs.getDouble("only_bed_price_mult"),rs.getDouble("except_alc_price_mult"),rs.getInt("first_period_start_day"),rs.getInt("first_period_start_month"),rs.getInt("first_period_start_year"),rs.getInt("first_period_end_day"),rs.getInt("first_period_end_month"),rs.getInt("first_period_end_year"),rs.getInt("second_period_start_day"),rs.getInt("second_period_start_month"),rs.getInt("second_period_start_year"),rs.getInt("second_period_end_day"),rs.getInt("second_period_end_month"),rs.getInt("second_period_end_year"));
-                hotelList.add(obj);
+    // Searching Hotel
+    // It has an if block that finds if the parameters are empty or which one is empty
+    public static ArrayList<Hotel> searchHotel(String city,String hotelName){
+        ArrayList<Hotel> hotelList = new ArrayList<>();
+        String query = "";
+        Hotel obj;
+        ResultSet rs = null;
+
+        if (!city.isEmpty() && !hotelName.isEmpty()){
+            query = "SELECT * FROM hotels WHERE hotel_city = ? AND hotel_name = ?";
+            try {
+                PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+                st.setString(1,city);
+                st.setString(2,hotelName);
+
+                rs = st.executeQuery();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }else if (city.isEmpty() && !hotelName.isEmpty()){
+            query = "SELECT * FROM hotels WHERE hotel_name = ?";
+            try {
+                PreparedStatement stt = DBConnector.getInstance().prepareStatement(query);
+                stt.setString(1,hotelName);
+
+                rs = stt.executeQuery();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (!city.isEmpty() && hotelName.isEmpty()) {
+            query = "SELECT * FROM hotels WHERE hotel_city = ?";
+            try {
+                PreparedStatement sttt = DBConnector.getInstance().prepareStatement(query);
+                sttt.setString(1,city);
+
+                rs = sttt.executeQuery();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
+
+        while (true){
+            try {
+                if (!rs.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                obj = new Hotel(rs.getInt("hotel_id"),rs.getString("hotel_name"), rs.getString("hotel_city"),rs.getString("hotel_district"),rs.getString("hotel_adress"),rs.getString("hotel_email"),rs.getString("hotel_tel"),rs.getInt("hotel_star"),rs.getBoolean("freePark"),rs.getBoolean("SPA"),rs.getBoolean("twentyForSevenService"),rs.getBoolean("freeWifi"),rs.getBoolean("swimmingPool"),rs.getBoolean("gym"), rs.getBoolean("concierge"), rs.getBoolean("ultraAllIncluded"),rs.getBoolean("allIncluded"),rs.getBoolean("roomBreakfast"), rs.getBoolean("fullType"), rs.getBoolean("halfType"), rs.getBoolean("onlyBed"), rs.getBoolean("fullCreditExceptAlcohol"),rs.getDouble("kid_price_mult"),rs.getDouble("ultra_all_inc_price_mult"),rs.getDouble("all_inc_price_mult"),rs.getDouble("room_break_price_mult"),rs.getDouble("full_type_price_mult"),rs.getDouble("half_type_price_mult"),rs.getDouble("only_bed_price_mult"),rs.getDouble("except_alc_price_mult"),rs.getInt("first_period_start_day"),rs.getInt("first_period_start_month"),rs.getInt("first_period_start_year"),rs.getInt("first_period_end_day"),rs.getInt("first_period_end_month"),rs.getInt("first_period_end_year"),rs.getInt("second_period_start_day"),rs.getInt("second_period_start_month"),rs.getInt("second_period_start_year"),rs.getInt("second_period_end_day"),rs.getInt("second_period_end_month"),rs.getInt("second_period_end_year"));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            hotelList.add(obj);
+        }
+
 
         return hotelList;
     }

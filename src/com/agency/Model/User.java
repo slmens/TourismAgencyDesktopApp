@@ -27,7 +27,7 @@ public class User {
     }
 
 
-    // GET ALL USERS
+    // Getting all the users
     public static ArrayList<User> getUserList(){
         String query = "SELECT * FROM users";
         ArrayList<User> userList = new ArrayList<>();
@@ -48,7 +48,7 @@ public class User {
         return userList;
     }
 
-    // USER ADD METHOD
+    // Adding user
     public static boolean userAdd(String fullName,String uName, String pass, String userType,String userTel){
         String query = "INSERT INTO users (full_name,user_name,pass,user_type,user_tel) VALUES (?,?,?,?,?)";
         User obj = userFetch(uName);
@@ -71,7 +71,7 @@ public class User {
         return false;
     }
 
-    // USER FETCH METHOD
+    // Fetching user by username
     public static User userFetch(String uName){
         String query = "SELECT * FROM users WHERE user_name = ?";
         User obj = null;
@@ -92,6 +92,7 @@ public class User {
         return obj;
     }
 
+    // Fetching user by user ID
     public static User userFetch(int id){
         String query = "SELECT * FROM users WHERE user_id = ?";
         User obj = null;
@@ -112,6 +113,7 @@ public class User {
         return obj;
     }
 
+    // Deleting user
     public static boolean deleteUser(int id){
         String query = "DELETE FROM users WHERE user_id = ?";
 

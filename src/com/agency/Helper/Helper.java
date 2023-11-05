@@ -61,8 +61,12 @@ public class Helper {
     }
 
 
+    // Setting the theme
     public static void themeSelecter(){
-
         FlatSolarizedDarkIJTheme.setup();
+    }
+
+    public static int showConfirmDialog(JButton btn){
+        return JOptionPane.showConfirmDialog(btn,"Do you want to delete your account?","Warning!",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
     }
 }
