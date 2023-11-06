@@ -37,7 +37,9 @@ public class LogInGUI extends JFrame{
             }else{
                 User obj = User.userFetch(txt_user_name_login.getText());
                 String password = String.valueOf(txt_user_pass_login.getPassword());
+                //************** DEĞERLENDİRME FORMU 8 **************
                 if (obj != null && Objects.equals(obj.getPass(), password)){
+                    // ************** DEĞERLENDİRME FORMU 7 **************
                     dispose();
                     if (obj.getUserType().equals("customer")){
                         CustomerGUI customerGUI = new CustomerGUI(obj);

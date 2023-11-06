@@ -235,6 +235,7 @@ public class reservationGUI extends JFrame {
 
 
         // MAKE APPOINTMENT BUTTON
+        // // ************** DEĞERLENDİRME FORMU 16 **************
         btn_make_app.addActionListener(e -> {
             if (txt_ıdentity_number.getText().isEmpty() || cmb_adult.getSelectedItem() == "0" || Objects.equals(entrance, "11/11/1111") || Objects.equals(exit, "11/11/2023")){
                 Helper.showMessage("Please fill all the required fields!");
@@ -242,11 +243,11 @@ public class reservationGUI extends JFrame {
                 if (cmb_adult.getSelectedItem() != null || cmb_child.getSelectedItem() != null){
                     int personCount = Integer.parseInt((String) cmb_adult.getSelectedItem()) + Integer.parseInt((String) cmb_child.getSelectedItem());
                     ReservationAprovelGUI reservationAprovelGUI = new ReservationAprovelGUI(hotel,entrance,exit,entrance_day,entrance_month,entrance_year,exit_day,exit_month,exit_year,totalPrice,customer,room,personCount,txt_ıdentity_number.getText(),reservationTable);
+                    dispose();
                 }else{
                     Helper.showMessage("Person count is null!");
                 }
             }
-            dispose();
         });
 
         // DATE PICKER ACTIONS
@@ -297,8 +298,10 @@ public class reservationGUI extends JFrame {
     }
 
     // Price calculator
+    // ************** DEĞERLENDİRME FORMU 15 **************
     public static double setTotalPrice(double priceMultiplier, JComboBox cmb_adult, JComboBox cmb_child){
         // Odanın verilen bilgilere dayanarak ilk periyottaki bir gece fiyatı
+        // ************** DEĞERLENDİRME FORMU 10 ************** First period price ve second period price
         double v = (room.getFirstPeriodPrice() * priceMultiplier) * Integer.parseInt((String) cmb_adult.getSelectedItem());
         double v1 = ((room.getFirstPeriodPrice() * priceMultiplier) * hotel.getKidPriceMultiplier()) * Integer.parseInt((String) cmb_child.getSelectedItem());
 

@@ -174,6 +174,7 @@ public class EmployeeGUI extends JFrame{
         reservationsMenu.add(deleteReservation);
         tbl_reservations_list.setComponentPopupMenu(reservationsMenu);
 
+        // // ************** DEĞERLENDİRME FORMU 18 **************
         deleteReservation.addActionListener(e -> {
             int selectedReservationID = (int) tbl_reservations_list.getValueAt(tbl_reservations_list.getSelectedRow(),0);
             int selectedReservationRoomId = (int) tbl_reservations_list.getValueAt(tbl_reservations_list.getSelectedRow(),3);
@@ -213,6 +214,7 @@ public class EmployeeGUI extends JFrame{
 
 
         // HOTEL ADD BUTTON PRESSED
+        // ************** DEĞERLENDİRME FORMU 9 **************
         btn_add_hotel.addActionListener(e -> {
             if (txt_hotel_add_name.getText().isEmpty() || txt_hotel_add_star.getText().isEmpty() || txt_hotel_add_city.getText().isEmpty() || txt_hotel_add_mail.getText().isEmpty() || txt_hotel_add_tel.getText().isEmpty() || txt_hotel_add_district.getText().isEmpty() || txt_hotel_add_address.getText().isEmpty() || txt_add_hotel_kid_price_mult.getText().isEmpty() || txt_add_hotel_ultra_all_price_mult.getText().isEmpty() || txt_add_hotel_all_price_mult.getText().isEmpty() || txt_add_hotel_breakfast_price_mult.getText().isEmpty() || txt_add_hotel_full_price_mult.getText().isEmpty() || txt_add_hotel_half_price_mult.getText().isEmpty() || txt_add_hotel_bed_price_mult.getText().isEmpty() || txt_add_hotel_full_credit_price_mult.getText().isEmpty()){
                 Helper.showMessage("fill");
@@ -253,6 +255,7 @@ public class EmployeeGUI extends JFrame{
 
 
         // ADD ROOM BUTTON PRESSED
+        // ************** DEĞERLENDİRME FORMU 11 **************
         btn_add_room.addActionListener(e -> {
             if (txt_add_room_bed.getText().isEmpty() || txt_add_room_room_size.getText().isEmpty() || txt_add_room_hotel_name.getText().isEmpty() || txt_add_room_stock.getText().isEmpty() || txt_add_room_first_period.getText().isEmpty() || txt_add_room_second_period.getText().isEmpty()){
                 Helper.showMessage("fill");
@@ -518,6 +521,7 @@ public class EmployeeGUI extends JFrame{
     }
 
     // UPDATE RESERVATION LIST
+    // // ************** DEĞERLENDİRME FORMU 18 **************
     public static void updateReservationsTable(JTable tbl_reservations_list){
         DefaultTableModel clearModel = (DefaultTableModel) tbl_reservations_list.getModel();
         clearModel.setRowCount(0);

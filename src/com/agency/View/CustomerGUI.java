@@ -167,13 +167,18 @@ public class CustomerGUI extends JFrame{
         btn_search.addActionListener(e -> {
             String roomType = (String) cmb_room_type.getModel().getSelectedItem();
 
-            ArrayList<Room> roomList = Room.searchRooms(roomType,roomTV,roomMinibar,roomGameConsole,roomVault,roomProjection);
-            updateRoom(tbl_room,roomList);
-
+            if (!roomTV && !roomMinibar && !roomGameConsole && !roomVault && !roomProjection){
+                updateRoom(tbl_room,lastHotelID);
+            }else{
+                ArrayList<Room> roomList = Room.searchRooms(roomType,roomTV,roomMinibar,roomGameConsole,roomVault,roomProjection,lastHotelID);
+                updateRoom(tbl_room,roomList);
+            }
         });
 
 
         // HOTEL SEARCH
+        // ************** DEĞERLENDİRME FORMU 13 **************
+        // ************** DEĞERLENDİRME FORMU 14 **************
         btn_hotel_search.addActionListener(e -> {
             String city = txt_hotel_search_city.getText();
             String hotelName = txt_hotel_name.getText();
@@ -327,8 +332,8 @@ public class CustomerGUI extends JFrame{
         tbl_hotel.setModel(mdl_hotel_list);
 
         tbl_hotel.getColumnModel().getColumn(0).setMaxWidth(50);
-        tbl_hotel.getColumnModel().getColumn(1).setMaxWidth(70);
-        tbl_hotel.getColumnModel().getColumn(2).setMaxWidth(70);
+        tbl_hotel.getColumnModel().getColumn(1).setMaxWidth(100);
+        tbl_hotel.getColumnModel().getColumn(2).setMaxWidth(100);
         tbl_hotel.getColumnModel().getColumn(3).setMaxWidth(70);
         tbl_hotel.getColumnModel().getColumn(4).setMaxWidth(70);
         tbl_hotel.getColumnModel().getColumn(5).setMaxWidth(70);
@@ -395,8 +400,8 @@ public class CustomerGUI extends JFrame{
         tbl_hotel.setModel(mdl_hotel_list);
 
         tbl_hotel.getColumnModel().getColumn(0).setMaxWidth(50);
-        tbl_hotel.getColumnModel().getColumn(1).setMaxWidth(70);
-        tbl_hotel.getColumnModel().getColumn(2).setMaxWidth(70);
+        tbl_hotel.getColumnModel().getColumn(1).setMaxWidth(100);
+        tbl_hotel.getColumnModel().getColumn(2).setMaxWidth(100);
         tbl_hotel.getColumnModel().getColumn(3).setMaxWidth(70);
         tbl_hotel.getColumnModel().getColumn(4).setMaxWidth(70);
         tbl_hotel.getColumnModel().getColumn(5).setMaxWidth(70);

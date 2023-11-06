@@ -211,6 +211,7 @@ public class Room {
 
 
     // Method that sets the availability of a room when a reservation is made or deleted
+    // // ************** DEĞERLENDİRME FORMU 17 **************
     public static boolean updateRoomStock(int roomID,int which){
         if (which == 1){
             String query = "UPDATE rooms SET stock_count = stock_count + 1 WHERE room_id = ?";
@@ -237,8 +238,8 @@ public class Room {
     }
 
     // Room search method by the given parameters
-    public static ArrayList<Room> searchRooms(String roomType,boolean tv,boolean minibar, boolean gameconsole, boolean vault, boolean projection){
-        String query = "SELECT * FROM rooms WHERE room_type = ? AND has_tv LIKE {{has_tv}} AND has_mini_bar LIKE {{has_mini_bar}} AND has_game_console LIKE {{has_game_console}} AND has_vault LIKE {{has_vault}} AND has_projection LIKE {{has_projection}}";
+    public static ArrayList<Room> searchRooms(String roomType,boolean tv,boolean minibar, boolean gameconsole, boolean vault, boolean projection,int hotelID){
+        String query = "SELECT * FROM rooms WHERE room_type = ? AND hotel_id = ? AND has_tv LIKE {{has_tv}} AND has_mini_bar LIKE {{has_mini_bar}} AND has_game_console LIKE {{has_game_console}} AND has_vault LIKE {{has_vault}} AND has_projection LIKE {{has_projection}}";
         query = query.replace("{{has_tv}}",String.valueOf(tv));
         query = query.replace("{{has_mini_bar}}",String.valueOf(minibar));
         query = query.replace("{{has_game_console}}",String.valueOf(gameconsole));
@@ -249,6 +250,7 @@ public class Room {
         try {
             PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
             st.setString(1,roomType);
+            st.setInt(2,hotelID);
             ResultSet rs = st.executeQuery();
 
             while (rs.next()){

@@ -54,7 +54,7 @@ public class ReservationAprovelGUI extends JFrame {
                 boolean res = Reservation.addReservation(customer.getUserID(),hotel.getHotelID(),room.getRoomID(),personCount,entranceDay,entranceMonthWord,entranceYear,exitDay,exitMonthWord,exitYear,socialSecurityNumber);
                 if (res){
                     Helper.showMessage("Your reservation have been successfully appointed!");
-                    EmployeeGUI.updateReservationsTable(reservationTable);
+                    CustomerGUI.updateMyReservations(reservationTable,customer.getUserID());
                 }else{
                     Helper.showMessage("There is no available room!");
                 }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+// ************** DEĞERLENDİRME FORMU 6 **************
 public class DBConnector {
     private Connection connect = null;
 
