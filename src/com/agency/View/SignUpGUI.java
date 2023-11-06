@@ -28,8 +28,6 @@ public class SignUpGUI extends JFrame{
         setVisible(true);
 
 
-
-
         //CREATE ACCOUNT BUTTON PRESSED
         createAccountButton.addActionListener(e -> {
             String str = String.valueOf(txt_signup_pass.getPassword());

@@ -6,6 +6,7 @@ import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class User {
@@ -125,6 +126,34 @@ public class User {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static ArrayList<User> searchUserList(String query){
+        ArrayList<User> userList = new ArrayList<>();
+        User obj;
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()){
+                obj = new User(rs.getInt("user_id"),rs.getString("user_tel"),rs.getString("full_name"),rs.getString("user_name"),rs.getString("pass"),rs.getString("user_type"));
+                userList.add(obj);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return userList;
+    }
+
+    public static String searchQuery(String name, String uName, String type){
+        String query = "SELECT * FROM users WHERE user_name LIKE '%{{user_name}}%' AND full_name LIKE '%{{full_name}}%'";
+        query = query.replace("{{user_name}}", uName);
+        query = query.replace("{{full_name}}", name);
+        if (type.isEmpty()){
+            query +=  "AND user_type LIKE '{{user_type}}'";
+            query = query.replace("{{user_type}}", type);
+        }
+
+        return query;
     }
 
 

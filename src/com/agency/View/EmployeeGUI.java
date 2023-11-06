@@ -136,9 +136,10 @@ public class EmployeeGUI extends JFrame{
         setVisible(true);
 
         lbl_welcome.setText("Welcome " + employee.getFullName());
+        launchSetter(tbl_room_list,tbl_hotel_list,tbl_reservations_list);
 
-        updateHotelTable(tbl_hotel_list);
-        tbl_hotel_list.getTableHeader().setReorderingAllowed(false);
+
+        // Hotel table popups and action
         hotelMenu = new JPopupMenu();
         JMenuItem deleteHotel = new JMenuItem("Delete the hotel");
         JMenuItem updateHotel = new JMenuItem("Update the hotel");
@@ -166,7 +167,8 @@ public class EmployeeGUI extends JFrame{
             }
         });
 
-        updateReservationsTable(tbl_reservations_list);
+
+        // Reservation table popup and action
         reservationsMenu = new JPopupMenu();
         JMenuItem deleteReservation = new JMenuItem("Delete the reservation!");
         reservationsMenu.add(deleteReservation);
@@ -184,8 +186,7 @@ public class EmployeeGUI extends JFrame{
             }
         });
 
-        updateRoom(tbl_room_list);
-        tbl_room_list.getTableHeader().setReorderingAllowed(false);
+       // Room table popups and actions
         roomMenu = new JPopupMenu();
         JMenuItem deleteRoom = new JMenuItem("Delete the room!");
         JMenuItem updateRoom = new JMenuItem("Update the room");
@@ -209,20 +210,6 @@ public class EmployeeGUI extends JFrame{
                 Helper.showMessage("Couldn't delete the room!");
             }
         });
-
-        /*tbl_room_list.getModel().addTableModelListener(e -> {
-            if (e.getType() == TableModelEvent.UPDATE){
-                int roomID = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),0);
-                String hotelName = tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),1).toString();
-                String roomType = tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),2).toString();
-                int roomStock = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),3);
-                int roomSize = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),4);
-                int firstPeriodPrice = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),5);
-                int secondPeriodPrice = (int) tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(),6);
-
-                if ()
-            }
-        });*/
 
 
         // HOTEL ADD BUTTON PRESSED
@@ -265,6 +252,33 @@ public class EmployeeGUI extends JFrame{
         });
 
 
+        // ADD ROOM BUTTON PRESSED
+        btn_add_room.addActionListener(e -> {
+            if (txt_add_room_bed.getText().isEmpty() || txt_add_room_room_size.getText().isEmpty() || txt_add_room_hotel_name.getText().isEmpty() || txt_add_room_stock.getText().isEmpty() || txt_add_room_first_period.getText().isEmpty() || txt_add_room_second_period.getText().isEmpty()){
+                Helper.showMessage("fill");
+            }else{
+                String roomType = (String) cmb_room_add_room_type.getModel().getSelectedItem();
+                int hotelID = Hotel.getHotelIDByName(txt_add_room_hotel_name.getText());
+                if (hotelID != 0){
+
+                    boolean result = Room.addRoom(roomType,Integer.parseInt(txt_add_room_stock.getText()),hotelID,Integer.parseInt(txt_add_room_bed.getText()),hasTv,hasMinibar,hasGameConsole,hasVault,hasProjection,Integer.parseInt(txt_add_room_room_size.getText()),Integer.parseInt(txt_add_room_first_period.getText()),Integer.parseInt(txt_add_room_second_period.getText()));
+                    if (result){
+                        Helper.showMessage("Room successfully added!");
+                        updateRoom(tbl_room_list);
+                        txt_add_room_bed.setText(null);
+                        txt_add_room_room_size.setText(null);
+                        txt_add_room_hotel_name.setText(null);
+                        txt_add_room_stock.setText(null);
+                        txt_add_room_second_period.setText(null);
+                        txt_add_room_first_period.setText(null);
+                    }else{
+                        Helper.showMessage("There is a problem!");
+                    }
+                }else{
+                    Helper.showMessage("Please enter correct hotel name!");
+                }
+            }
+        });
 
         // CHECK BOX'S
         check_freePark.addActionListener(e -> {
@@ -367,33 +381,6 @@ public class EmployeeGUI extends JFrame{
             }
         });
 
-        // ADD ROOM BUTTON PRESSED
-        btn_add_room.addActionListener(e -> {
-            if (txt_add_room_bed.getText().isEmpty() || txt_add_room_room_size.getText().isEmpty() || txt_add_room_hotel_name.getText().isEmpty() || txt_add_room_stock.getText().isEmpty() || txt_add_room_first_period.getText().isEmpty() || txt_add_room_second_period.getText().isEmpty()){
-                Helper.showMessage("fill");
-            }else{
-                String roomType = (String) cmb_room_add_room_type.getModel().getSelectedItem();
-                int hotelID = Hotel.getHotelIDByName(txt_add_room_hotel_name.getText());
-                if (hotelID != 0){
-
-                    boolean result = Room.addRoom(roomType,Integer.parseInt(txt_add_room_stock.getText()),hotelID,Integer.parseInt(txt_add_room_bed.getText()),hasTv,hasMinibar,hasGameConsole,hasVault,hasProjection,Integer.parseInt(txt_add_room_room_size.getText()),Integer.parseInt(txt_add_room_first_period.getText()),Integer.parseInt(txt_add_room_second_period.getText()));
-                    if (result){
-                        Helper.showMessage("Room successfully added!");
-                        updateRoom(tbl_room_list);
-                        txt_add_room_bed.setText(null);
-                        txt_add_room_room_size.setText(null);
-                        txt_add_room_hotel_name.setText(null);
-                        txt_add_room_stock.setText(null);
-                        txt_add_room_second_period.setText(null);
-                        txt_add_room_first_period.setText(null);
-                    }else{
-                        Helper.showMessage("There is a problem!");
-                    }
-                }else{
-                    Helper.showMessage("Please enter correct hotel name!");
-                }
-            }
-        });
 
         // ADD ROOM CHECKBOXES
         check_room_add_tv.addActionListener(e -> {
@@ -433,6 +420,7 @@ public class EmployeeGUI extends JFrame{
         });
 
 
+        // Date setter buttons
         btn_first_start.addActionListener(e -> {
             DateViewGUI dateViewGUI = new DateViewGUI("Add Hotel",1);
         });
@@ -447,8 +435,17 @@ public class EmployeeGUI extends JFrame{
         });
     }
 
-    // ROOM UPDATE
+    public static void launchSetter(JTable tbl_room_list, JTable tbl_hotel_list, JTable tbl_reservations_list){
+        updateHotelTable(tbl_hotel_list);
+        tbl_hotel_list.getTableHeader().setReorderingAllowed(false);
+        updateReservationsTable(tbl_reservations_list);
+        updateRoom(tbl_room_list);
+        tbl_room_list.getTableHeader().setReorderingAllowed(false);
+    }
 
+
+
+    // ROOM UPDATE
     public static void updateRoom(JTable tbl_room_list){
         DefaultTableModel clearModel = (DefaultTableModel) tbl_room_list.getModel();
         clearModel.setRowCount(0);

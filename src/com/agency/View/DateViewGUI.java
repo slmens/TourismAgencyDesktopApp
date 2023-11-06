@@ -139,7 +139,7 @@ public class DateViewGUI extends JFrame {
 
     public static int getDay(java.util.Date selectedDate){
         if (selectedDate != null) {
-            // Use a Calendar instance to extract day, month, and year
+            // Use a Calendar instance to extract day
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(selectedDate);
 
@@ -151,7 +151,7 @@ public class DateViewGUI extends JFrame {
 
     public static int getMonth(java.util.Date selectedDate){
         if (selectedDate != null) {
-            // Use a Calendar instance to extract day, month, and year
+            // Use a Calendar instance to extract month
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(selectedDate);
 
@@ -163,7 +163,7 @@ public class DateViewGUI extends JFrame {
 
     public static int getYear(java.util.Date selectedDate){
         if (selectedDate != null) {
-            // Use a Calendar instance to extract day, month, and year
+            // Use a Calendar instance to extract year
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(selectedDate);
 

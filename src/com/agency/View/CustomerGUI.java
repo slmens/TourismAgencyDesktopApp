@@ -41,7 +41,6 @@ public class CustomerGUI extends JFrame{
     public static int entranceYear = 0;
     public static int lastRoomID;
     public static int lastHotelID;
-    // Çıkış yapacağı tarih giriş yapacağı tarihten büyük mü
 
     //Hotel Variables
     private static String freePark = "No";
@@ -105,6 +104,8 @@ public class CustomerGUI extends JFrame{
         updateHotel(tbl_hotel);
         updateMyReservations(tbl_my_reservations,customer.getUserID());
 
+
+        // Hotel table selection
         tbl_hotel.getSelectionModel().addListSelectionListener(e -> {
             try {
                 int selectedHotel = (int) tbl_hotel.getValueAt(tbl_hotel.getSelectedRow(),0);
@@ -115,6 +116,7 @@ public class CustomerGUI extends JFrame{
             }
         });
 
+        // Room table selection
         tbl_room.getSelectionModel().addListSelectionListener(e -> {
             try{
                 int roomID = (int) tbl_room.getValueAt(tbl_room.getSelectedRow(),0);
@@ -125,6 +127,7 @@ public class CustomerGUI extends JFrame{
 
         });
 
+        // Room and reservation table popups
         roomMenu = new JPopupMenu();
         JMenuItem details = new JMenuItem("Details");
         roomMenu.add(details);
@@ -169,6 +172,38 @@ public class CustomerGUI extends JFrame{
 
         });
 
+
+        // HOTEL SEARCH
+        btn_hotel_search.addActionListener(e -> {
+            String city = txt_hotel_search_city.getText();
+            String hotelName = txt_hotel_name.getText();
+
+            if (city.isEmpty() && hotelName.isEmpty()){
+                ArrayList<Hotel> allHotelList = Hotel.getHotelList();
+                updateHotel(tbl_hotel,allHotelList);
+            }else{
+                ArrayList<Hotel> hotelList = Hotel.searchHotel(city,hotelName);
+                updateHotel(tbl_hotel,hotelList);
+            }
+        });
+
+
+        // Refresh the hotel table with no search filter
+        backToAllHotelsButton.addActionListener(e -> {
+            updateHotel(tbl_hotel);
+        });
+
+
+        // Deleting account button
+        deleteMyAccountButton.addActionListener(e -> {
+            if (Helper.showConfirmDialog(deleteMyAccountButton) == JOptionPane.YES_OPTION){
+                User.deleteUser(customer.getUserID());
+                dispose();
+                LogInGUI logInGUI = new LogInGUI();
+            }
+        });
+
+
         //ROOM SEARCHING CHECKBOXES
         tvCheckBox.addActionListener(e -> {
             if (roomTV){
@@ -203,34 +238,6 @@ public class CustomerGUI extends JFrame{
                 roomProjection = false;
             } else{
                 roomProjection = true;
-            }
-        });
-
-        // HOTEL SEARCH
-        btn_hotel_search.addActionListener(e -> {
-            String city = txt_hotel_search_city.getText();
-            String hotelName = txt_hotel_name.getText();
-
-            if (city.isEmpty() && hotelName.isEmpty()){
-                ArrayList<Hotel> allHotelList = Hotel.getHotelList();
-                updateHotel(tbl_hotel,allHotelList);
-            }else{
-                ArrayList<Hotel> hotelList = Hotel.searchHotel(city,hotelName);
-                updateHotel(tbl_hotel,hotelList);
-            }
-        });
-
-
-        backToAllHotelsButton.addActionListener(e -> {
-            updateHotel(tbl_hotel);
-        });
-
-
-        deleteMyAccountButton.addActionListener(e -> {
-            if (Helper.showConfirmDialog(deleteMyAccountButton) == JOptionPane.YES_OPTION){
-                User.deleteUser(customer.getUserID());
-                dispose();
-                LogInGUI logInGUI = new LogInGUI();
             }
         });
     }

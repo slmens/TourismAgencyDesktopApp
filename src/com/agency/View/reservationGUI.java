@@ -140,7 +140,6 @@ public class reservationGUI extends JFrame {
         seasonSetter();
 
 
-
         lbl_hotel_info_citydist.setText(String.format("%s/%s",hotel.getHotelCity(),hotel.getHotelDistrict()));
         lbl_hotel_info_tel.setText(hotel.getHotelTelNumber());
         lbl_hotel_info_star.setText(String.valueOf(hotel.getHotelStar()));
@@ -200,10 +199,6 @@ public class reservationGUI extends JFrame {
 
 
 
-                // (base fiyat * pansiyon tipi ) yetişkin sayısı
-                // ((base fiyat * pansiyon tipi ) çocuk fiyat multiplier) * çocuk sayısı
-                // (bunların toplamını * dönem fiyat katsayısı) * kalacağı gün
-
                 if (cmb_types.getSelectedItem() == "Ultra All Included"){
                     totalPrice = setTotalPrice(hotel.getUltraAllIncludedPriceMultiplier(),cmb_adult,cmb_child);
 
@@ -241,7 +236,6 @@ public class reservationGUI extends JFrame {
 
         // MAKE APPOINTMENT BUTTON
         btn_make_app.addActionListener(e -> {
-            // bütün her yer doldurulmuş mu kontrol et ve exit year 0 olmasın
             if (txt_ıdentity_number.getText().isEmpty() || cmb_adult.getSelectedItem() == "0" || Objects.equals(entrance, "11/11/1111") || Objects.equals(exit, "11/11/2023")){
                 Helper.showMessage("Please fill all the required fields!");
             }else{
@@ -302,12 +296,13 @@ public class reservationGUI extends JFrame {
         });
     }
 
+    // Price calculator
     public static double setTotalPrice(double priceMultiplier, JComboBox cmb_adult, JComboBox cmb_child){
-        // odanın ilk periyottaki bir gece fiyatı
+        // Odanın verilen bilgilere dayanarak ilk periyottaki bir gece fiyatı
         double v = (room.getFirstPeriodPrice() * priceMultiplier) * Integer.parseInt((String) cmb_adult.getSelectedItem());
         double v1 = ((room.getFirstPeriodPrice() * priceMultiplier) * hotel.getKidPriceMultiplier()) * Integer.parseInt((String) cmb_child.getSelectedItem());
 
-        // odanın ikinci periyottaki bir gece fiyatı
+        // Odanın verilen bilgilere dayanarak ikinci periyottaki bir gece fiyatı
         double v2 = (room.getSecondPeriodPrice() * priceMultiplier) * Integer.parseInt((String) cmb_adult.getSelectedItem());
         double v3 = ((room.getSecondPeriodPrice() * priceMultiplier) * hotel.getKidPriceMultiplier()) * Integer.parseInt((String) cmb_child.getSelectedItem());
 
@@ -316,6 +311,8 @@ public class reservationGUI extends JFrame {
 
         return firstPeriodPrice + secondPeriodPrice;
     }
+
+    // Filling the variables with hotel parameter to use later
     public static void seasonSetter(){
         firstPeriodStartDay = hotel.getFirst_period_start_day();
         firstPeriodStartMonth = hotel.getFirst_period_start_month();
@@ -373,6 +370,7 @@ public class reservationGUI extends JFrame {
     }
 
 
+    // Filling the combo box
     public static void comboSetter(JComboBox cmb_types){
 
         if (hotel.isUltraAllIncluded()){

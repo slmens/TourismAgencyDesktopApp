@@ -21,6 +21,10 @@ public class ManagerGUI extends JFrame{
     private JTextField txt_add_employee_pass;
     private JTextField txt_add_employee_telephone;
     private JButton btn_add_employee;
+    private JTextField txt_search_name;
+    private JTextField txt_search_uname;
+    private JComboBox cmb_seach_type;
+    private JButton searchUserButton;
     private User manager;
 
     private static DefaultTableModel mdl_users_list;
@@ -41,6 +45,8 @@ public class ManagerGUI extends JFrame{
         updateUsers(tbl_users);
         tbl_users.getTableHeader().setReorderingAllowed(false);
 
+
+        // User table popups and action
         userMenu = new JPopupMenu();
         JMenuItem deleteUser = new JMenuItem("Delete User");
         userMenu.add(deleteUser);
@@ -88,8 +94,42 @@ public class ManagerGUI extends JFrame{
             txt_add_employee_user_name.setText(null);
             txt_add_employee_full_name.setText(null);
         });
+
+        // User search button pressed
+        searchUserButton.addActionListener(e -> {
+            String name = txt_search_name.getText();
+            String uName = txt_search_uname.getText();
+            String type = cmb_seach_type.getSelectedItem().toString();
+            String query = User.searchQuery(name,uName,type);
+
+            ArrayList<User> filteredUsers = User.searchUserList(query);
+            updateUsers(tbl_users,filteredUsers);
+        });
     }
 
+
+    public static void updateUsers(JTable tbl_users,ArrayList<User> userList){
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_users.getModel();
+        clearModel.setRowCount(0);
+
+        mdl_users_list = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                    return false;
+            }
+        };
+        Object[] col_users_list = {"ID","Full Name","User Name","User Type","User Mobile Number"};
+        mdl_users_list.setColumnIdentifiers(col_users_list);
+
+        for (User user:userList){
+            row_users_list = new Object[]{user.getUserID(),user.getFullName(),user.getuName(),user.getUserType(),user.getUserTel()};
+            mdl_users_list.addRow(row_users_list);
+        }
+
+        tbl_users.setModel(mdl_users_list);
+
+        tbl_users.getColumnModel().getColumn(0).setMaxWidth(50);
+    }
 
     public static void updateUsers(JTable tbl_users){
         DefaultTableModel clearModel = (DefaultTableModel) tbl_users.getModel();

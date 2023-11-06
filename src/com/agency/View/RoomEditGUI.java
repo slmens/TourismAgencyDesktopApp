@@ -33,8 +33,6 @@ public class RoomEditGUI extends JFrame {
     private boolean hasVault = false;
     private boolean hasProjection = false;
 
-
-    // dispose ederken employeeden update çağır
     public RoomEditGUI(int room_id,JTable tbl_room_list){
         add(wrapper);
         setSize(800,700);
@@ -56,6 +54,7 @@ public class RoomEditGUI extends JFrame {
         txt_edit_room_size.setText(String.valueOf(room.getRoomSizeM()));
         txt_edit_room_first_period.setText(String.valueOf(room.getFirstPeriodPrice()));
         txt_edit_room_second_period.setText(String.valueOf(room.getSecondPeriodPrice()));
+
         if (room.isHasTv()){
             hasTV = true;
             check_edit_room_tv.setSelected(true);
@@ -79,7 +78,6 @@ public class RoomEditGUI extends JFrame {
 
 
         //EDIT ROOM BUTTON
-        // almak istediğin özellikler
         editRoomButton.addActionListener(e -> {
             boolean res = Room.updateRoom(room.getRoomID(),(String) cmb_edit_room_type.getModel().getSelectedItem(),Integer.parseInt(txt_edit_room_stock.getText()),Integer.parseInt(txt_edit_room_bed.getText()),hasTV,hasBar,hasGame,hasVault,hasProjection,Integer.parseInt(txt_edit_room_size.getText()),Integer.parseInt(txt_edit_room_first_period.getText()),Integer.parseInt(txt_edit_room_second_period.getText()));
             if (res){

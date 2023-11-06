@@ -23,6 +23,7 @@ public class ReservationAprovelGUI extends JFrame {
     private static String entranceMonthWord = null;
     private static String exitMonthWord = null;
 
+    // This is a summary and approval screen for reservation. There is only two button.
 
     public ReservationAprovelGUI(Hotel hotel, String entrance, String exit,int entranceDay,int entranceMonth,int entranceYear,int exitDay,int exitMonth,int exitYear, double totalPrice, User customer, Room room,int personCount,String socialSecurityNumber,JTable reservationTable){
         add(wrapper);
@@ -44,8 +45,8 @@ public class ReservationAprovelGUI extends JFrame {
             Helper.showMessage("Your reservation is cancelled!");
             dispose();
         });
+
         yesButton.addActionListener(e -> {
-            // EVETE BASMASI HALİNDE BÖYLE BİR REZERVASYON VAR MI DİYE KONTROL ET
             boolean isNull = Reservation.fetchReservation(customer.getUserID(),hotel.getHotelID(),room.getRoomID());
             if (isNull){
                 Helper.showMessage("You have another reservation for that same room! You can't make another reservation!");
