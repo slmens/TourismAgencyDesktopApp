@@ -144,7 +144,7 @@ public class ManagerGUI extends JFrame{
                 return super.isCellEditable(row, column);
             }
         };
-        Object[] col_users_list = {"ID","Ad Soyad","Kullanıcı Adı","Üyelik Tipi","User Mobile Number"};
+        Object[] col_users_list = {"ID","Full Name","User Name","User Type","User Mobile Number"};
         mdl_users_list.setColumnIdentifiers(col_users_list);
 
         ArrayList<User> userList;
