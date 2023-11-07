@@ -140,6 +140,20 @@ public class Reservation {
         return false;
     }
 
+
+    public static boolean deleteAllReservationByUserID(int user_id){
+        String query = "DELETE FROM reservations WHERE user_id = ?";
+
+        try {
+            PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
+            st.setInt(1,user_id);
+
+            return st.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // Fetching 1 reservation that has all the given parameters
     public static boolean fetchReservation(int userID,int hotelID,int roomID){
         String query = "SELECT * FROM reservations WHERE user_id = ? AND hotel_id = ? AND room_id = ?";

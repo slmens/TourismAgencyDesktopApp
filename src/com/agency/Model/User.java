@@ -1,12 +1,10 @@
 package com.agency.Model;
 
+import com.agency.Helper.Constants;
 import com.agency.Helper.DBConnector;
 
 import javax.xml.transform.Result;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class User {
@@ -116,16 +114,40 @@ public class User {
 
     // Deleting user
     public static boolean deleteUser(int id){
+        Connection connect = null;
+        try {
+            connect = DriverManager.getConnection(Constants.DB_URL,Constants.DB_UNAME,Constants.DB_PASS);
+            connect.setAutoCommit(false);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         String query = "DELETE FROM users WHERE user_id = ?";
 
         try {
             PreparedStatement st = DBConnector.getInstance().prepareStatement(query);
             st.setInt(1,id);
 
-            return st.executeUpdate() != -1;
+            st.executeUpdate();
+
+            boolean res = Reservation.deleteAllReservationByUserID(id);
+
+            if (res){
+                connect.commit();
+                return true;
+            }
         } catch (SQLException e) {
+            if (connect != null){
+                try {
+                    connect.rollback();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
             throw new RuntimeException(e);
         }
+
+        return false;
     }
 
     public static ArrayList<User> searchUserList(String query){

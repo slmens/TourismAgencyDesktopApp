@@ -136,7 +136,12 @@ public class EmployeeGUI extends JFrame{
         setVisible(true);
 
         lbl_welcome.setText("Welcome " + employee.getFullName());
-        launchSetter(tbl_room_list,tbl_hotel_list,tbl_reservations_list);
+        updateRoom(tbl_room_list);
+
+        updateReservationsTable(tbl_reservations_list);
+
+        updateHotelTable(tbl_hotel_list);
+        tbl_hotel_list.getTableHeader().setReorderingAllowed(false);
 
 
         // Hotel table popups and action
@@ -168,6 +173,9 @@ public class EmployeeGUI extends JFrame{
         });
 
 
+        updateReservationsTable(tbl_reservations_list);
+        tbl_reservations_list.getTableHeader().setReorderingAllowed(false);
+
         // Reservation table popup and action
         reservationsMenu = new JPopupMenu();
         JMenuItem deleteReservation = new JMenuItem("Delete the reservation!");
@@ -186,6 +194,9 @@ public class EmployeeGUI extends JFrame{
                 Helper.showMessage("Couldn't delete the reservation!");
             }
         });
+
+        updateRoom(tbl_room_list);
+        tbl_room_list.getTableHeader().setReorderingAllowed(false);
 
        // Room table popups and actions
         roomMenu = new JPopupMenu();
@@ -436,14 +447,6 @@ public class EmployeeGUI extends JFrame{
         btn_second_end.addActionListener(e -> {
             DateViewGUI dateViewGUI = new DateViewGUI("Add Hotel",4);
         });
-    }
-
-    public static void launchSetter(JTable tbl_room_list, JTable tbl_hotel_list, JTable tbl_reservations_list){
-        updateHotelTable(tbl_hotel_list);
-        tbl_hotel_list.getTableHeader().setReorderingAllowed(false);
-        updateReservationsTable(tbl_reservations_list);
-        updateRoom(tbl_room_list);
-        tbl_room_list.getTableHeader().setReorderingAllowed(false);
     }
 
 
