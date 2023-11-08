@@ -26,4 +26,4 @@ Bundan sonraki kısım projeyi inceleyecek Patika+ bootcamp eğitmeni içindir
 (The next part is for the Patika+ bootcamp instructor who will review the project) :
 - İnceleme işini kolaylaştıracak bir pdf : [tourismagency.pdf](https://github.com/slmens/PatikaCloneDesktopApp/files/13279018/tourismagency.pdf)
 
-- Projeyi kısaca anlatan loom videosu: 
+- Projeyi kısaca gösteren loom videosu: https://www.loom.com/share/f764f8d5562e4841a99346b10a4dbb10
